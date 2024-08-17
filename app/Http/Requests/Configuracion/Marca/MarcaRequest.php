@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Configuracion\Almacen;
+namespace App\Http\Requests\Configuracion\Marca;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class AlmacenRequest extends FormRequest
+class MarcaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +23,7 @@ class AlmacenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_almacen' => ['required'],
-            'telefono'       => ['required']
+            'nombre_marca' => ['required', 'max:255', Rule::unique('marcas', 'nombre')],
         ];
     }
 }

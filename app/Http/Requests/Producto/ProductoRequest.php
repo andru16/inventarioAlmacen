@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Configuracion\Almacen;
+namespace App\Http\Requests\Producto;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AlmacenRequest extends FormRequest
+class ProductoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class AlmacenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_almacen' => ['required'],
-            'telefono'       => ['required']
+            'producto'         => ['required'],
+            'select_categoria' => ['required'],
+            'stock_minimo'     => ['required']
         ];
     }
 }

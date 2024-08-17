@@ -320,7 +320,7 @@
                 <!--end:::Tab pane-->
                 <!--begin:::Tab pane-->
                 <div class="tab-pane fade" id="kt_marca" role="tabpanel">
-                    <div class="row">
+                    <div class="row" id="app_marca">
                         <div class="col-md-4">
                             <div class="card border border-primary-subtle">
                                 <div class="card-header" style="background: #002175;">
@@ -330,7 +330,7 @@
                                 </div>
                                 <div class="card-body">
                                     <!--begin::Form-->
-                                    <form id="kt_categoria" class="form" action="#">
+                                    <form id="kt_form_marca" class="form" action="#">
                                         <!--begin::Input group-->
                                         <div class="row fv-row mb-7">
                                             <label class="form-label required" for="nombre_marca">Marca</label>
@@ -342,7 +342,7 @@
                                             <div class="col-md-9 offset-md-3">
                                                 <div class="d-flex">
                                                     <!--begin::Button-->
-                                                    <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-primary">
+                                                    <button type="button" id="btn_crear_marca" @click="registrarMarca" class="btn btn-primary">
                                                         <span class="indicator-label">Guardar</span>
                                                         <span class="indicator-progress">Por favor, espere...
 																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -367,13 +367,12 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <!--begin::Table-->
-                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_marcas_table">
                                             <thead>
-                                            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                                <th class="min-w-125px">No.</th>
-                                                <th class="min-w-125px">Categoria</th>
-
-                                            </tr>
+                                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="min-w-125px">No.</th>
+                                                    <th class="min-w-125px">Categoria</th>
+                                                </tr>
                                             </thead>
                                             <tbody class="fw-semibold text-gray-600">
 
@@ -385,273 +384,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--end:::Tab pane-->
-                <!--begin:::Tab pane-->
-                <div class="tab-pane fade" id="kt_productos" role="tabpanel">
-                    <!--begin::Form-->
-                    <form id="kt_ecommerce_settings_general_products" class="form" action="#">
-                        <!--begin::Heading-->
-                        <div class="row mb-7">
-                            <div class="col-md-9 offset-md-3">
-                                <h2>Cateogries Settings</h2>
-                            </div>
-                        </div>
-                        <!--end::Heading-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-7">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span>Category Product Count</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Show the number of products inside the subcategories in the storefront header category menu. Be warned, this will cause an extreme performance hit for stores with a lot of subcategories!">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <div class="d-flex mt-3">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid me-5">
-                                        <input class="form-check-input" type="radio" value="" name="category_product_count" id="category_product_count_yes" checked="checked" />
-                                        <label class="form-check-label" for="category_product_count_yes">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="radio" value="" name="category_product_count" id="category_product_count_no" />
-                                        <label class="form-check-label" for="category_product_count_no">No</label>
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-16">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Default Items Per Page</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Determines how many items are shown per page.">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" name="products_items_per_page" value="10" />
-                                <!--end::Input-->
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Heading-->
-                        <div class="row mb-7">
-                            <div class="col-md-9 offset-md-3">
-                                <h2>Reviews Settings</h2>
-                            </div>
-                        </div>
-                        <!--end::Heading-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-7">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span>Allow Reviews</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Enable/disable review entries for registered customers.">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <div class="d-flex mt-3">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid me-5">
-                                        <input class="form-check-input" type="radio" value="" name="allow_reviews" id="allow_reviews_yes" checked="checked" />
-                                        <label class="form-check-label" for="allow_reviews_yes">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="radio" value="" name="allow_reviews" id="allow_reviews_no" />
-                                        <label class="form-check-label" for="allow_reviews_no">No</label>
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-16">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span>Allow Guest Reviews</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Enable/disable review entries for public guest customers">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <div class="d-flex mt-3">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid me-5">
-                                        <input class="form-check-input" type="radio" value="" name="allow_guest_reviews" id="allow_guest_reviews_yes" />
-                                        <label class="form-check-label" for="allow_guest_reviews_yes">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="radio" value="" name="allow_guest_reviews" id="allow_guest_reviews_no" checked="checked" />
-                                        <label class="form-check-label" for="allow_guest_reviews_no">No</label>
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Heading-->
-                        <div class="row mb-7">
-                            <div class="col-md-9 offset-md-3">
-                                <h2>Vouchers Settings</h2>
-                            </div>
-                        </div>
-                        <!--end::Heading-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-7">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Minimum Vouchers</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Minimum number of vouchers customers can attach to an order">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" name="products_min_voucher" value="1" />
-                                <!--end::Input-->
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-16">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Maximum Vouchers</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Maximum number of vouchers customers can attach to an order">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" name="products_max_voucher" value="10" />
-                                <!--end::Input-->
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Heading-->
-                        <div class="row mb-7">
-                            <div class="col-md-9 offset-md-3">
-                                <h2>Tax Settings</h2>
-                            </div>
-                        </div>
-                        <!--end::Heading-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-7">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span>Display Prices with Tax</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <div class="d-flex mt-3">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid me-5">
-                                        <input class="form-check-input" type="radio" value="" name="product_tax" id="product_tax_yes" checked="checked" />
-                                        <label class="form-check-label" for="product_tax_yes">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="radio" value="" name="product_tax" id="product_tax_no" />
-                                        <label class="form-check-label" for="product_tax_no">No</label>
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="row fv-row mb-7">
-                            <div class="col-md-3 text-md-end">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Default Tax Rate</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Determines the tax percentage (%) applied to orders">
-																		<i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																			<span class="path3"></span>
-																		</i>
-																	</span>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <div class="col-md-9">
-                                <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" name="products_tax_rate" value="15%" />
-                                <!--end::Input-->
-                            </div>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Action buttons-->
-                        <div class="row py-5">
-                            <div class="col-md-9 offset-md-3">
-                                <div class="d-flex">
-                                    <!--begin::Button-->
-                                    <button type="reset" data-kt-ecommerce-settings-type="cancel" class="btn btn-light me-3">Cancel</button>
-                                    <!--end::Button-->
-                                    <!--begin::Button-->
-                                    <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-primary">
-                                        <span class="indicator-label">Save</span>
-                                        <span class="indicator-progress">Please wait...
-																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                    </button>
-                                    <!--end::Button-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Action buttons-->
-                    </form>
-                    <!--end::Form-->
                 </div>
                 <!--end:::Tab pane-->
             </div>
@@ -666,5 +398,6 @@
     @vite([
         'resources/js/configuracion/almacen/almacen.js',
         'resources/js/configuracion/categorias/categoria.js',
+        'resources/js/configuracion/marca/marca.js'
         ])
 @endsection

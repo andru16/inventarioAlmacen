@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('marcas', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('nombre');
+            $table->foreignUuid('id_almacen')->references('id')->on('almacenes')->onDelete('cascade');
             $table->primary('id');
         });
     }
@@ -23,6 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('marcas', function (Blueprint $table) {
+            $table->dropForeign(['id_almacen']);
+        });
         Schema::dropIfExists('marcas');
     }
 };

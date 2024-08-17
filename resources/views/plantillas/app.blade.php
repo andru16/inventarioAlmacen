@@ -35,6 +35,7 @@ License: For each use you must have a valid license purchased only from above li
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+
     <!--end::Global Stylesheets Bundle-->
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -1150,7 +1151,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <div class="app-toolbar-wrapper d-flex align-items-center flex-stack flex-wrap gap-2 py-4 w-100">
                                         <!--begin::Page title-->
                                         <div class="page-title d-flex flex-column justify-content-center gap-2 me-3">
-                                            @yield('breadcrumbs')
+                                            @yield('breadcrumbs')a
                                         </div>
                                         <!--end::Page title-->
 
@@ -1158,7 +1159,14 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--end::Toolbar wrapper-->
                                 </div>
                                 <!--end::Toolbar-->
+
+                                <!--begin::Contenido-->
                                 @yield('contenido')
+                                <!--end::Contenido-->
+
+                                <!--begin::Modals-->
+                                @yield('modales')
+                                <!--end::Modals-->
                             </div>
                         </div>
                         <!--end::Content-->
@@ -2444,9 +2452,7 @@ License: For each use you must have a valid license purchased only from above li
     </i>
 </div>
 <!--end::Scrolltop-->
-<!--begin::Modals-->
-@yield('modales')
-<!--end::Modals-->
+
 <!--begin::Javascript-->
 
 <script>var hostUrl = "assets/";</script>
@@ -2465,6 +2471,8 @@ License: For each use you must have a valid license purchased only from above li
 <script src="{{ asset('assets/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
 <script src="{{ asset('assets/js/custom/utilities/modals/create-campaign.js') }}"></script>
 <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script>
+<script src="{{ asset('js/spanish-select2.js') }}"></script>
+<script src="{{ asset('js/autonumeric.js') }}"></script>
 <!--end::Custom Javascript-->
 
 @yield('scripts')

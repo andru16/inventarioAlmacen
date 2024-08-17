@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventario', function (Blueprint $table) {
+        Schema::create('facturas_tienen_productos', function (Blueprint $table) {
             $table->uuid('id');
+            $table->foreignUuid('id_factura')->references('id')->on('facturas')->onDelete('cascade');
             $table->foreignUuid('id_producto')->references('id')->on('productos')->onDelete('cascade');
-            $table->decimal('cantidad', 17, 2)->default(0);
-            $table->decimal('cantidad_reservada', 17, 2)->default(0);
-            $table->decimal('cantidad_disponible', 17, 2)->default(0);
-            $table->decimal('costo', 17, 2)->default(0);
-            $table->decimal('precio', 17, 2)->default(0);
+            $table->decimal('cantidad');
+            $table->decimal('precio_unitario', 17, 2);
+            $table->decimal('total', 17, 2)->nullable();
             $table->dateTime('creado_en')->useCurrent();
             $table->dateTime('actualizado_en')->useCurrent();
             $table->primary('id');
@@ -30,9 +29,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('inventario', function (Blueprint $table){
+        Schema::table('facturas_tienen_productos', function (Blueprint $table) {
+            $table->dropForeign(['id_factura']);
             $table->dropForeign(['id_producto']);
         });
-        Schema::dropIfExists('inventario');
+        Schema::dropIfExists('facturas_tienen_productos');
     }
 };

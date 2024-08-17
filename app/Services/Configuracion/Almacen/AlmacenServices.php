@@ -16,12 +16,12 @@ class AlmacenServices implements AlmacenServicesIntefaces
     {
        //Registramos el nuevo almacen
         $almacen            = new Almacen();
-        $almacen->nombre    = $request->nombre_almacen;
-        $almacen->direccion = $request->direccion;
-        $almacen->correo    = $request->correo_electronico;
-        $almacen->telefono  = $request->telefono;
-        $almacen->whatsapp  = $request->whatsapp;
-        $almacen->id_ciudad = $request->select_ciudad;
+        $almacen->nombre    = $request['nombre_almacen'];
+        $almacen->direccion = $request['direccion'];
+        $almacen->correo    = $request['correo_electronico'];
+        $almacen->telefono  = $request['telefono'];
+        $almacen->whatsapp  = $request['whatsapp'];
+        $almacen->id_ciudad = $request['select_ciudad'];
         $almacen->save();
 
         //Actualizamos el id del usuario que guardo la información del almacén, como pertenecienteal almacen registrado

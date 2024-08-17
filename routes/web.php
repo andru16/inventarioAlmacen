@@ -8,6 +8,8 @@ use App\Http\Controllers\Compras\CompraController;
 use App\Http\Controllers\Ventas\VentaController;
 use App\Http\Controllers\Configuracion\ConfiguracionController;
 use App\Http\Controllers\DepartamentosCiudades\CiudadDepartamentoController;
+use App\Http\Controllers\Productos\ProductoController;
+use App\Http\Controllers\Facturacion\FacturaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +46,14 @@ Route::middleware(['auth'])->group(function (){
      * Inventario
      */
     Route::get('/inventario', [InventarioController::class, 'vistaInventario'])->name('inventario');
+    Route::post('/inventario/listado-inventario', [InventarioController::class, 'listarProductos']);
+
+    /**
+     * Productos
+     */
+    Route::post('/productos/crear-producto', [ProductoController::class, 'crearProducto']);
+    Route::post('/productos/listado-productos', [ProductoController::class, 'listarProductos']);
+    Route::get('/productos/select-productos', [ProductoController::class, 'listaProductosSelect']);
 
     /**
      * Compras
@@ -71,10 +81,15 @@ Route::middleware(['auth'])->group(function (){
      *Configuracion-categoria
      */
     Route::post('/configuracion/registrar-categoria', [ConfiguracionController::class, 'registrarCategoria']);
+    Route::post('/configuracion/categorias/listado-categorias', [ConfiguracionController::class, 'listadoCategorias']);
+    Route::get('/categorias/select-categorias', [ProductoController::class, 'selectCategorias']);
 
     /**
      *Configuracion-marcas
      */
+    Route::post('/configuracion/registrar-marca', [ConfiguracionController::class, 'registrarMarca']);
+    Route::post('/configuracion/marcas/listado-marcas', [ConfiguracionController::class, 'listadoMarcas']);
+    Route::get('/categorias/select-marcas', [ProductoController::class, 'selectMarcas']);
 
 
     /**
@@ -82,5 +97,10 @@ Route::middleware(['auth'])->group(function (){
      */
     Route::get('/lista-departamentos', [CiudadDepartamentoController::class, 'listarDepartamentos']);
     Route::get('/lista-ciudades', [CiudadDepartamentoController::class, 'listarCiudades']);
+
+    /**
+     * Facturas
+     */
+    Route::post('/facturas/registrar-factura', [FacturaController::class, 'registrarFactura']);
 });
 

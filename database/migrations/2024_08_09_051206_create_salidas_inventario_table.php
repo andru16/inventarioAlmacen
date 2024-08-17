@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('id_tipo_movimiento')
                 ->constrained('tipo_movimientos_salidas_inventario')
                 ->onDelete('cascade');
+            $table->foreignUuid('id_almacen')->references('id')->on('almacenes')->onDelete('cascade');
             $table->integer('numero_salida');
             $table->date('fecha_salida');
             $table->dateTime('creado_en')->useCurrent();
@@ -32,6 +33,7 @@ return new class extends Migration
 
         Schema::table('salidas_inventario', function (Blueprint $table) {
             $table->dropForeign(['id_tipo_movimiento']);
+            $table->dropForeign(['id_almacen']);
         });
 
         Schema::dropIfExists('salidas_inventario');

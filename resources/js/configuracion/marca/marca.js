@@ -4,29 +4,29 @@ import {activarLoadBtn, desactivarLoadBtn} from "@/ayudas/Load";
 
 import swal from "sweetalert";
 
-const appCategoria = createApp({
+const appMarca = createApp({
     data() {
         return {
-            tablaListaCategorias: {
+            tablaListaMarcas: {
                 draw: () => {}
             },
 
-            formularioRegistrarCategoria:{},
+            formularioRegistrarMarca:{},
         }
     },
 
     mounted() {
         //Obtenemos el listado de categorias
-        this.listadoCategorias();
+        this.listadoMarcas();
 
         //Inicializamos la validación del formulario
         this.inicializarFormulariosDeValidacion();
     },
 
     methods: {
-        listadoCategorias(){
+        listadoMarcas(){
 
-            this.tablaListaCategorias = $('#kt_categorias_tabla').DataTable({
+            this.tablaListaMarcas = $('#kt_marcas_table').DataTable({
                 "language": spanish,
                 "processing": true,
                 "serverSide": true,
@@ -40,7 +40,7 @@ const appCategoria = createApp({
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     type: 'POST',
-                    url: "/configuracion/categorias/listado-categorias",
+                    url: "/configuracion/marcas/listado-marcas",
                     data: function (d) {
                         return $.extend({}, d, {
                             // "buscar": inputBuscadorUsuarios.val().toLowerCase(),
@@ -54,21 +54,21 @@ const appCategoria = createApp({
             });
 
         },
-        registrarCategoria() {
+        registrarMarca() {
 
-            activarLoadBtn('btn_crear_categoria');
+            activarLoadBtn('btn_crear_marca');
 
-            this.formularioRegistrarCategoria.validate()
+            this.formularioRegistrarMarca.validate()
                 .then( estado => {
 
                     if( estado === 'Invalid') {
-                        desactivarLoadBtn('btn_crear_categoria')
+                        desactivarLoadBtn('btn_crear_marca')
                         return '';
                     }
 
-                    const formularioRegistrarCategoria = new FormData(document.getElementById('kt_form_categoria'));
+                    const formularioRegistrarMarca = new FormData(document.getElementById('kt_form_marca'));
 
-                    axios.post('/configuracion/registrar-categoria', formularioRegistrarCategoria, {
+                    axios.post('/configuracion/registrar-marca', formularioRegistrarMarca, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -77,7 +77,7 @@ const appCategoria = createApp({
 
                             swal({
                                 title: '¡Eso es todo!',
-                                text: 'La marca fue registrada!',
+                                text: 'La categoria fue registrada!',
                                 icon: 'success',
                                 buttons: 'Ver información',
                                 closeOnEsc: false,
@@ -85,8 +85,8 @@ const appCategoria = createApp({
                             }).then( confirmacion => {
 
                                 if( confirmacion ) {
-                                    //Refrescamos la tabla para listar los nuevos registros
-                                    this.tablaListaCategorias.draw()
+                                    //Refrescamos la tabla para listar el nuevo resultado
+                                    this.tablaListaMarcas.draw()
 
                                     //Limpiamos el formulario
                                     document.getElementById('kt_form_categoria').reset();
@@ -105,7 +105,7 @@ const appCategoria = createApp({
 
                         })
                         .finally( () => {
-                            desactivarLoadBtn('btn_crear_categoria');
+                            desactivarLoadBtn('btn_crear_marca');
                         })
 
 
@@ -114,17 +114,17 @@ const appCategoria = createApp({
         },
         inicializarFormulariosDeValidacion() {
 
-            const formRegistrarCatergoria = document.getElementById('kt_form_categoria');
+            const registrarMarca = document.getElementById('kt_form_marca');
 
-            this.formularioRegistrarCategoria = FormValidation.formValidation(
-                formRegistrarCatergoria,
+            this.formularioRegistrarMarca = FormValidation.formValidation(
+                registrarMarca,
                 {
 
                     fields: {
-                        'nombre_marca': {
+                        'nombre_categoria': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Por favor ingresa el nombre de la marca'
+                                    message: 'Por favor ingresa el nombre de la categoria'
                                 }
                             }
                         },
@@ -146,4 +146,4 @@ const appCategoria = createApp({
     }
 });
 
-appCategoria.mount('#app_categoria')
+appMarca.mount('#app_marca')

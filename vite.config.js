@@ -21,16 +21,16 @@ export default defineConfig({
                 'resources/js/autenticacion/iniciar_sesion.js',
 
                 /**
-                 * Configuración - Almacén
+                 * Configuración
                  */
                 'resources/js/configuracion/almacen/almacen.js',
+                'resources/js/configuracion/categorias/categoria.js',
+                'resources/js/configuracion/marca/marca.js',
 
                 /**
-                 * Configuración - Categoria
+                 * Almacén
                  */
-                'resources/js/configuracion/categorias/categoria.js'
-
-
+                'resources/js/inventario/listar_inventario.js',
             ],
             refresh: true,
         }),

@@ -50,7 +50,7 @@ class ProductoController extends Controller
         return DataTables::eloquent($productos)
             ->addColumn('nombre', function(Producto $producto) {
 
-                return  $producto->nombre ;
+                return  $producto->nombre;
 
             })->addColumn('referencia', function(Producto $producto) {
                 return $producto->referencia;

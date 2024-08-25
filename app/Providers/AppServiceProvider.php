@@ -4,12 +4,15 @@ namespace App\Providers;
 
 use App\Interfaces\Configuracion\Almacen\AlmacenServicesIntefaces;
 use App\Interfaces\Configuracion\Categoria\CategoriaServicesInterfaces;
+use App\Interfaces\Configuracion\Consecutivo\ConsecutivoServicesInterfaces;
 use App\Interfaces\Configuracion\Marca\MarcaServicesInterfaces;
 use App\Interfaces\Producto\ProductuoServicesInterfaces;
 use App\Services\Configuracion\Almacen\AlmacenServices;
 use App\Services\Configuracion\Categoria\CategoriaServices;
+use App\Services\Configuracion\Consecutivo\ConsecutivoServices;
 use App\Services\Configuracion\Marca\MarcaServices;
 use App\Services\Producto\ProductoServices;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
 
         //Producto
         $this->app->bind(ProductuoServicesInterfaces::class, ProductoServices::class);
+
+        //Consecutivo
+        $this->app->bind(ConsecutivoServicesInterfaces::class, ConsecutivoServices::class);
     }
 
     /**

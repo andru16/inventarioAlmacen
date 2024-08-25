@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Facturacion;
 
 use App\Http\Controllers\Controller;
 use App\Http\Decimales\Decimales;
+use App\Interfaces\Configuracion\Consecutivo\ConsecutivoServicesInterfaces;
 use App\Models\Facturacion\Factura;
 use App\Models\Facturacion\FacturaTieneProducto;
-use App\Models\Facturacion\FacturaTieneProductos;
 use App\Models\Inventario\SalidaInventario;
 use App\Models\Inventario\TipoMovimientoSalidaInventario;
 use Carbon\Carbon;
@@ -19,7 +19,8 @@ class FacturaController extends Controller
 
     public function __construct
     (
-        protected Decimales $decimales
+        protected Decimales $decimales,
+        protected ConsecutivoServicesInterfaces $consecutivoServicesInterfaces,
     )
     {}
 
@@ -28,7 +29,10 @@ class FacturaController extends Controller
         DB::beginTransaction();
         try {
 
-//            $salidaAlmacen = $this->registrarSalida($request);
+//          $salidaAlmacen = $this->registrarSalida($request);
+
+            $consecutivo = $this->consecutivoServicesInterfaces->generarConsecutivo('factura');
+            dd($consecutivo);
 
             $anio = date('Y');
             $ultimaFactura = Factura::where('numero_factura', 'like', "$anio-FT-%")

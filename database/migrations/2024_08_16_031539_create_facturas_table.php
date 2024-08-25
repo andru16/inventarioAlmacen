@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('facturas', function (Blueprint $table) {
             $table->uuid('id');
             $table->foreignUuid('id_salida_inventario')->references('id')->on('salidas_inventario')->onDelete('cascade');
+            $table->foreignUuid('id_cliente')->references('id')->on('clientes_almacen')->onDelete('cascade');
             $table->string('numero_factura');
             $table->date('fecha_emision');
             $table->string('nombre_cliente')->nullable();
@@ -36,6 +37,7 @@ return new class extends Migration
     {
         Schema::table('facturas', function (Blueprint $table) {
             $table->dropForeign(['id_salida_inventario']);
+            $table->dropForeign(['id_cliente']);
         });
         Schema::dropIfExists('facturas');
     }

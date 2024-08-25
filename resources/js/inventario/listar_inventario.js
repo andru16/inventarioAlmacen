@@ -2,6 +2,7 @@ import {createApp} from "vue/dist/vue.esm-bundler";
 import spanish from '../data_tables/spanish.json';
 import {activarLoadBtn, desactivarLoadBtn} from "@/ayudas/Load";
 
+
 import swal from "sweetalert";
 
 const appAlmacen = createApp({

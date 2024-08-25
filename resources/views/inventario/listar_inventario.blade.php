@@ -537,10 +537,19 @@
                                         <div class="mb-0">
                                             <!--begin::Row-->
                                             <div class=" gx-10 mb-5">
+
+                                                <div class="col-lg-6 mb-7 fv-row" v-if="!registrarCliente">
+                                                    <label class="form-label" for="select_estado">Cliente</label>
+                                                    <select class="form-select form-select-solid form-select-sm mb-2" name="select_estado"  id="select_estado">
+                                                        <option value="" selected>Selecciona un cliente</option>
+                                                        <option value="Pendiente" >Pendiente</option>
+                                                        <option value="Completa" >Completa</option>
+                                                    </select>
+                                                </div>
                                                 <div class="form-check form-check-custom form-check-solid form-check-sm" style="">
                                                     <input class="form-check-input" type="checkbox" v-model="registrarCliente" id="flexRadioLg"/>
                                                     <label class="form-check-label" for="flexRadioLg">
-                                                        Registrar cliente factura
+                                                        ¿Cliente no encontrado? Registrar nuevo cliente
                                                     </label>
                                                 </div>
                                                 <!--begin::Col-->

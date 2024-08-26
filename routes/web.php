@@ -102,5 +102,23 @@ Route::middleware(['auth'])->group(function (){
      * Facturas
      */
     Route::post('/facturas/registrar-factura', [FacturaController::class, 'registrarFactura']);
+
+
+    /**
+     * Proveedores
+     */
+    Route::get('/proveedores/select-proveedores', [ProveedorController::class, 'listaProveedoresSelect']);
+    Route::post('/proveedores/listado-proveedores', [ProveedorController::class, 'listarProveedores']);
+    Route::post('/proveedores/crear-proveedor', [ProveedorController::class, 'crearProveedor']);
+    Route::get('/proveedores/{proveedor}', [ProveedorController::class, 'getProveedor']);
+    Route::put('/proveedores/{proveedor}', [ProveedorController::class, 'actualizarProveedor']);
+
+    /**
+     * Compras
+     */
+    Route::post('/compras/listado-compras', [CompraController::class, 'listarCompras']);
+    Route::post('/compras/crear-compra', [CompraController::class, 'crearCompra']);
+    Route::get('/compras/{compra}', [CompraController::class, 'getCompra']);
+    Route::put('/compras/{compra}', [CompraController::class, 'actualizarCompra']);
 });
 

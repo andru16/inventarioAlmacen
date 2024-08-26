@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Models\Proveedores;
+namespace App\Models\Compras;
 
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Proveedor extends Model
+class CompraTieneProducto extends Model
 {
+
     use HasFactory, Uuids;
 
-    protected $table = 'proveedores';
+    protected $table = 'compras_tienen_productos';
     protected $guarded = [];
     protected $keyType = 'string';
     public $incrementing = false;
@@ -18,12 +19,14 @@ class Proveedor extends Model
     const UPDATED_AT = 'actualizado_en';
     protected $dates = ['creado_en', 'actualizado_en'];
 
+
     protected $fillable = [
-        'nombre',
-        'telefono',
-        'email',
-        'direccion',
-        'nombre_contacto',
-        'estado',
+        'compra_id',
+        'producto_id',
+        'cantidad',
+        'precio_unitario',
+        'total',
+        'creado_en',
+        'actualizado_en',
     ];
 }

@@ -2471,8 +2471,7 @@ License: For each use you must have a valid license purchased only from above li
 <script src="{{ asset('assets/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
 <script src="{{ asset('assets/js/custom/utilities/modals/create-campaign.js') }}"></script>
 <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script>
-<script src="{{ asset('js/spanish-select2.js') }}"></script>
-<script src="{{ asset('js/autonumeric.js') }}"></script>
+
 <!--end::Custom Javascript-->
 
 @yield('scripts')

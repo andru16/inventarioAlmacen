@@ -77,7 +77,7 @@ const appMarca = createApp({
 
                             swal({
                                 title: '¡Eso es todo!',
-                                text: 'La categoria fue registrada!',
+                                text: 'La marca fue registrada!',
                                 icon: 'success',
                                 buttons: 'Ver información',
                                 closeOnEsc: false,

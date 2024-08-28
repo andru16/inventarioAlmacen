@@ -2,16 +2,24 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Almacen\ColaboradoresAlmacenServicesInterfaces;
+use App\Interfaces\Clientes\ClientesServicesInterfaces;
 use App\Interfaces\Configuracion\Almacen\AlmacenServicesIntefaces;
 use App\Interfaces\Configuracion\Categoria\CategoriaServicesInterfaces;
 use App\Interfaces\Configuracion\Consecutivo\ConsecutivoServicesInterfaces;
 use App\Interfaces\Configuracion\Marca\MarcaServicesInterfaces;
+use App\Interfaces\Facturas\FacturasServicesInterfaces;
+use App\Interfaces\Ventas\VentasServicesInterfaces;
 use App\Interfaces\Producto\ProductuoServicesInterfaces;
+use App\Services\Almacen\ColaboradoresAlmacenServices;
+use App\Services\Clientes\ClientesServices;
 use App\Services\Configuracion\Almacen\AlmacenServices;
 use App\Services\Configuracion\Categoria\CategoriaServices;
 use App\Services\Configuracion\Consecutivo\ConsecutivoServices;
 use App\Services\Configuracion\Marca\MarcaServices;
+use App\Services\Facturas\FacturasServices;
 use App\Services\Producto\ProductoServices;
+use App\Services\Ventas\VentasServices;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //Almacen
         $this->app->bind(AlmacenServicesIntefaces::class, AlmacenServices::class);
+        $this->app->bind(ColaboradoresAlmacenServicesInterfaces::class, ColaboradoresAlmacenServices::class);
 
         //Categoria
         $this->app->bind(CategoriaServicesInterfaces::class, CategoriaServices::class);
@@ -36,6 +45,19 @@ class AppServiceProvider extends ServiceProvider
 
         //Consecutivo
         $this->app->bind(ConsecutivoServicesInterfaces::class, ConsecutivoServices::class);
+
+        //Facturaciones
+        $this->app->bind(FacturasServicesInterfaces::class, FacturasServices::class);
+
+        //Inventario
+        $this->app->bind(VentasServicesInterfaces::class, VentasServices::class);
+
+        //Clientes
+        $this->app->bind(ClientesServicesInterfaces::class, ClientesServices::class);
+
+        //Ventas
+        $this->app->bind(VentasServicesInterfaces::class, VentasServices::class);
+
     }
 
     /**

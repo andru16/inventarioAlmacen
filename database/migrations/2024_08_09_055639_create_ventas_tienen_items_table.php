@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingresos_items_inventario', function (Blueprint $table) {
+        Schema::create('ventas_tienen_productos', function (Blueprint $table) {
             $table->uuid('id');
             $table->foreignUuid('id_item_inventario')->references('id')->on('inventario')->onDelete('cascade');
-            $table->foreignUuid('id_ingreso_inventario')->references('id')->on('ingresos_inventario')->onDelete('cascade');
+            $table->foreignUuid('id_venta')->references('id')->on('ventas')->onDelete('cascade');
             $table->integer('cantidad');
             $table->decimal('costo_unitario', 17, 2);
             $table->decimal('costo_total', 17, 2);
@@ -29,11 +29,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ingresos_items_inventario', function (Blueprint $table){
+        Schema::table('ventas_tienen_productos', function (Blueprint $table){
             $table->dropForeign(['id_item_inventario']);
-            $table->dropForeign(['id_ingreso_inventario']);
+            $table->dropForeign(['id_venta']);
         });
 
-        Schema::dropIfExists('ingresos_items_inventario');
+        Schema::dropIfExists('ventas_tienen_productos');
     }
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventario;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\Almacen\ColaboradoresAlmacenServicesInterfaces;
 use App\Models\Inventario\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,34 +11,41 @@ use Yajra\DataTables\Facades\DataTables;
 
 class InventarioController extends Controller
 {
+
+    public function __construct
+    (
+        protected ColaboradoresAlmacenServicesInterfaces $colaboradoresAlmacenServicesInterfaces
+    ){}
     public function vistaInventario()
     {
-        return view('inventario.listar_inventario');
+        $colaboradores = $this->colaboradoresAlmacenServicesInterfaces->listarColaboradores();
+
+        return view('inventario.listar_inventario', compact('colaboradores'));
     }
 
     public function listarProductos(Request $request)
     {
-        $itemsInventario = Inventario::whereHas('productos', function ($query){
+        $itemsInventario = Inventario::whereHas('producto', function ($query){
             $query->where('id_almacen', Auth::user()->almacen_id);
-        })->with(['productos' => function($query){
+        })->with(['producto' => function($query){
             $query->with(['categoria', 'marca']);
         }]);
 
         return DataTables::eloquent($itemsInventario)
             ->addColumn('nombre', function(Inventario $inventario) {
-                return  $inventario->productos->nombre ;
+                return  $inventario->producto->nombre ;
 
             })->addColumn('referencia', function(Inventario $inventario) {
-                return $inventario->productos->referencia;
+                return $inventario->producto->referencia;
 
             })->addColumn('segunda_referencia', function(Inventario $inventario) {
-                return $inventario->productos->segunda_referencia;
+                return $inventario->producto->segunda_referencia;
 
             })->addColumn('categoria', function(Inventario $inventario) {
-                return $inventario->productos->categoria->nombre;
+                return $inventario->producto->categoria->nombre;
 
             })->addColumn('marca', function(Inventario $inventario) {
-                return $inventario->productos->marca->nombre;
+                return $inventario->producto->marca->nombre;
 
             })->addColumn('cantidad', function(Inventario $inventario) {
                 return $inventario->cantidad;

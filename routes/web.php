@@ -10,6 +10,7 @@ use App\Http\Controllers\Configuracion\ConfiguracionController;
 use App\Http\Controllers\DepartamentosCiudades\CiudadDepartamentoController;
 use App\Http\Controllers\Productos\ProductoController;
 use App\Http\Controllers\Facturacion\FacturaController;
+use App\Http\Controllers\Clientes\ClienteAlmacenController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,8 +100,13 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/lista-ciudades', [CiudadDepartamentoController::class, 'listarCiudades']);
 
     /**
-     * Facturas
+     * Ventas
      */
-    Route::post('/facturas/registrar-factura', [FacturaController::class, 'registrarFactura']);
+    Route::post('/ventas/registrar-venta', [VentaController::class, 'registrarVenta']);
+
+    /**
+     * Clientes
+     */
+    Route::get('/clientes/select-clientes', [ClienteAlmacenController::class, 'selectClientes']);
 });
 

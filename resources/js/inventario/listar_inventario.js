@@ -47,7 +47,6 @@ const appAlmacen = createApp({
             tablaListaInventario: {
                 draw: () => {}
             },
-            registrarCliente:false,
             formularioFactura:{
                 productoSeleccionado: null,
                 cantidadAdd: 1,
@@ -60,7 +59,12 @@ const appAlmacen = createApp({
                 estado: '',
                 nombre_cliente: '',
                 telefono: '',
-                totalFactura: 0
+                totalFactura: 0,
+                id_cliente: '',
+                registrarCliente:false,
+                incluirServicio: false,
+                colaboradores: [],
+                descripcionServicio: '',
             },
 
 
@@ -83,6 +87,13 @@ const appAlmacen = createApp({
         //Inicializamos
         this.listadoInventario()
         this.selectProductos('#select_producto');
+        this.selectClientes('#id_cliente');
+
+        $("#colaboradores_alistamiento").select2({
+            dropdownParent: $('#kt_modal_registrar_venta'),
+            tags: true,
+            tokenSeparators: [',', ' ']
+        })
 
         // Convertimos el campo de cantidad en formato decial estándar
         let inputDescuento = document.querySelector('#input_descuento');
@@ -130,7 +141,7 @@ const appAlmacen = createApp({
             dropdownParent: $('#kt_modal_registrar_venta'),
         });
         $('#select_estado').on('select2:select', (e) => {
-
+            console.log(e.params.data)
             this.formularioFactura.estado = e.params.data.text;
             // $('#total_precio_producto').html(e.params.data.precio_format);
         })
@@ -271,6 +282,39 @@ const appAlmacen = createApp({
             })
 
         },
+        selectClientes(idSelector){
+            $(idSelector).select2({
+                dropdownParent: $('#kt_modal_registrar_venta'),
+                ajax: {
+                    url: '/clientes/select-clientes',
+                    dataType: 'json',
+                    type: 'get',
+                    delay: 300,
+                    language: 'es',
+                    data: params => {
+                        return {
+                            busqueda: params.term,
+                            page: params.page
+                        };
+                    },
+                    processResults: data => {
+                        let results = data.map(item => ({
+                            id: item.id,
+                            text: item.nombre,
+                        }));
+                        return { results };
+                    },
+                    cache: true
+                }
+            });
+
+            $(idSelector).on('select2:select', (e) => {
+
+                this.formularioFactura.id_cliente = e.params.data.id;
+                // $('#total_precio_producto').html(e.params.data.precio_format);
+            })
+
+        },
 
         agregarProducto() {
 
@@ -316,7 +360,7 @@ const appAlmacen = createApp({
             $('#select_producto').empty().trigger('change');
         },
 
-        registrarFactura(){
+        registrarVenta(){
 
             activarLoadBtn('btn_crear_factura')
 
@@ -324,9 +368,10 @@ const appAlmacen = createApp({
             this.formularioFactura.fecha_vencimiento = $('#fecha_vencimiento').val();
             this.formularioFactura.totalFactura = this.total;
 
-            axios.post('/facturas/registrar-factura', this.formularioFactura, {
+            axios.post('/ventas/registrar-venta', this.formularioFactura, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             })
                 .then( res => {

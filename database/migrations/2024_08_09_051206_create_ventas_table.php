@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('salidas_inventario', function (Blueprint $table) {
+        Schema::create('ventas', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreignUuid('id_tipo_movimiento')
-                ->constrained('tipo_movimientos_salidas_inventario')
-                ->onDelete('cascade');
             $table->foreignUuid('id_almacen')->references('id')->on('almacenes')->onDelete('cascade');
-            $table->integer('numero_salida');
-            $table->date('fecha_salida');
+            $table->string('numero_venta');
+            $table->date('fecha_venta');
+            $table->decimal('valor_venta', 17, 2);
             $table->dateTime('creado_en')->useCurrent();
             $table->dateTime('actualizado_en')->useCurrent();
             $table->primary('id');
@@ -31,11 +29,10 @@ return new class extends Migration
     public function down(): void
     {
 
-        Schema::table('salidas_inventario', function (Blueprint $table) {
-            $table->dropForeign(['id_tipo_movimiento']);
+        Schema::table('ventas', function (Blueprint $table) {
             $table->dropForeign(['id_almacen']);
         });
 
-        Schema::dropIfExists('salidas_inventario');
+        Schema::dropIfExists('ventas');
     }
 };

@@ -9,9 +9,9 @@ class ConsecutivoServices implements ConsecutivoServicesInterfaces
 {
     private $configuracionTablas = [
         'factura' => ['tabla' => 'facturas', 'campo' => 'numero_factura'],
-        'salida' => ['tabla' => 'salidas_inventario', 'campo' => 'numero_salida'],
-        'ingreso' => ['tabla' => 'ingresos_inventario', 'campo' => 'numero_ingreso'],
-        'pago' => ['tabla' => 'pagos_facturas', 'campo' => 'numero_pago'],
+        'venta' => ['tabla' => 'ventas', 'campo' => 'numero_venta'],
+        'compra' => ['tabla' => 'compras', 'campo' => 'numero_ingreso'],
+        'pago' => ['tabla' => 'pagos_facturas', 'campo' => 'consecutivo'],
     ];
 
     public function generarConsecutivo(string $tipo)
@@ -32,8 +32,8 @@ class ConsecutivoServices implements ConsecutivoServicesInterfaces
     {
         $prefijos = [
             'factura' => 'FT',
-            'salida' => 'SA',
-            'ingreso' => 'IA',
+            'venta' => 'VTA',
+            'compra' => 'CMP',
             'pago' => 'PG',
         ];
 

@@ -538,22 +538,18 @@
                                             <!--begin::Row-->
                                             <div class=" gx-10 mb-5">
 
-                                                <div class="col-lg-6 mb-7 fv-row" v-if="!registrarCliente">
-                                                    <label class="form-label" for="select_estado">Cliente</label>
-                                                    <select class="form-select form-select-solid form-select-sm mb-2" name="select_estado"  id="select_estado">
-                                                        <option value="" selected>Selecciona un cliente</option>
-                                                        <option value="Pendiente" >Pendiente</option>
-                                                        <option value="Completa" >Completa</option>
-                                                    </select>
+                                                <div class="col-lg-6 mb-7 fv-row" v-if="!formularioFactura.registrarCliente">
+                                                    <label class="form-label" for="id_cliente">Cliente</label>
+                                                    <select class="form-select form-select-solid form-select-sm mb-2" name="id_cliente"  id="id_cliente" data-placeholder="Selecciona un cliente"></select>
                                                 </div>
                                                 <div class="form-check form-check-custom form-check-solid form-check-sm" style="">
-                                                    <input class="form-check-input" type="checkbox" v-model="registrarCliente" id="flexRadioLg"/>
+                                                    <input class="form-check-input" type="checkbox" v-model="formularioFactura.registrarCliente" id="flexRadioLg"/>
                                                     <label class="form-check-label" for="flexRadioLg">
                                                         ¿Cliente no encontrado? Registrar nuevo cliente
                                                     </label>
                                                 </div>
                                                 <!--begin::Col-->
-                                                <div class="col-lg-12 mt-5" v-if="registrarCliente">
+                                                <div class="col-lg-12 mt-5" v-if="formularioFactura.registrarCliente">
                                                     <label class="form-label fs-6 fw-bold text-gray-700 mb-3">Cliente</label>
                                                     <div class="row">
                                                         <!--begin::Input group-->
@@ -653,7 +649,6 @@
                                                             <div class="d-flex flex-column align-items-start">
                                                                 <div class="fs-5">Subtotal</div>
                                                                 <div class="fs-5 mb-3">Descuento</div>
-                                                                <div class="fs-5">Servicio</div>
                                                             </div>
                                                         </th>
 
@@ -661,10 +656,47 @@
                                                             $
                                                             <span data-kt-element="sub-total" v-text="Intl.NumberFormat('es-ES', {}).format( subtotal )"></span>
                                                             <input type="text" class="form-control form-control-sm form-control-solid text-end mb-3" id="input_descuento" v-model="formularioFactura.descuento" />
-                                                            <input type="text" class="form-control form-control-sm form-control-solid text-end" id="input_servicio" v-model="formularioFactura.servicio" />
                                                         </th>
                                                     </tr>
                                                     <tr class="align-top fw-bold text-gray-700">
+                                                        <th colspan="5">
+                                                            <div class="form-check form-check-custom form-check-solid form-check-sm" style="">
+                                                                <input class="form-check-input" type="checkbox" v-model="formularioFactura.incluirServicio" id="servicio"/>
+                                                                <label class="form-check-label" for="servicio">
+                                                                    ¿Incluir servicio en la factura?
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="col-lg-12 mt-5" v-show="formularioFactura.incluirServicio">
+                                                                <div class="row">
+                                                                    <!--begin::Input group-->
+                                                                    <div class="col-md-6 mb-5">
+                                                                        <label class="fs-6 fw-semibold mb-2 required" for="colaboradores_alistamiento">Mecanicos del servicio</label>
+                                                                        <select id="colaboradores_alistamiento" class="form-select form-select-solid"
+                                                                                data-placeholder="Selecciona los colaboradores"
+                                                                                name="colaboradores_alistamiento[]" multiple="multiple" v-model="formularioFactura.colaboradores">
+                                                                            @foreach($colaboradores as $colaborador)
+                                                                                <option value='{{ $colaborador->id }}'>{{ $colaborador->nombre_colaborador }}</option>
+                                                                            @endforeach
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <!--end::Input group-->
+                                                                    <!--begin::Input group-->
+                                                                    <div class="col-md-6 mb-5">
+                                                                        <label class="fs-6 fw-semibold mb-2 required" for="input_servicio">Valor servicio</label>
+                                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end" id="input_servicio" v-model="formularioFactura.servicio" />
+                                                                    </div>
+                                                                    <!--end::Input group-->
+                                                                </div>
+                                                            </div>
+                                                            <div class="  d-flex flex-column p-2" v-if="formularioFactura.incluirServicio">
+                                                                <label for="" class="form-label required">Descripción servicio</label>
+                                                                <textarea class="form-control form-control form-control-solid" data-kt-autosize="true" v-model="formularioFactura.descripcionServicio"></textarea>
+                                                            </div>
+                                                        </th>
+
+                                                    </tr><tr class="align-top fw-bold text-gray-700">
                                                         <th></th>
                                                         <th colspan="2" class="fs-4 ps-0">Total</th>
                                                         <th colspan="2" class="text-end fs-4 text-nowrap">$
@@ -674,6 +706,8 @@
                                                     </tfoot>
                                                     <!--end::Table foot-->
                                                 </table>
+
+
                                             </div>
                                             <!--end::Table-->
 
@@ -696,8 +730,8 @@
                         <button type="reset" id="kt_modal_add_customer_cancel" class="btn btn-light btn-sm me-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
                         <!--end::Button-->
                         <!--begin::Button-->
-                        <button type="button" id="btn_crear_factura" @click="registrarFactura" class="btn btn-primary btn-sm">
-                            <span class="indicator-label">Crear factura</span>
+                        <button type="button" id="btn_crear_factura" @click="registrarVenta" class="btn btn-primary btn-sm">
+                            <span class="indicator-label">Registrar Venta</span>
                             <span class="indicator-progress">Por favor, espere...
 							    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
@@ -714,5 +748,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/spanish-select2.js') }}"></script>
+    <script src="{{ asset('js/autonumeric.js') }}"></script>
     @vite(['resources/js/inventario/listar_inventario.js'])
 @endsection

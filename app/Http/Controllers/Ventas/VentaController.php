@@ -46,6 +46,10 @@ class VentaController extends Controller
 
             $factura = $this->facturasServicesInterfaces->crearFactura($ventaRequest, $venta, $cliente);
 
+            if ($ventaRequest->incluirServicio){
+
+            }
+
             dd($factura->load('productosFactura'));
             DB::commit();
             return response()->json('Ingreso de recaudo exítoso');

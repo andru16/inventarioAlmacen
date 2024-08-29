@@ -8,7 +8,8 @@
     <h1 class="page-heading d-flex flex-column justify-content-center text-gray-900 fw-bolder fs-1 m-0">Compras
         <!--begin::Description-->
         <span class="page-desc text-muted fs-7 fw-semibold"></span>
-        <!--end::Description--></h1>
+        <!--end::Description-->
+    </h1>
     <!--end::Title-->
     <!--begin::Breadcrumb-->
     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7">
@@ -44,7 +45,6 @@
 @endsection
 
 @section('contenido')
-
     <div class="card">
         <!--begin::Card header-->
         <div class="card-header border-0 pt-6">
@@ -56,7 +56,8 @@
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </i>
-                    <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Customers" />
+                    <input type="text" data-kt-customer-table-filter="search" id="kt_buscador_compras"
+                        class="form-control form-control-solid w-250px ps-12" placeholder="Buscar Compra" />
                 </div>
                 <!--end::Search-->
             </div>
@@ -66,14 +67,16 @@
                 <!--begin::Toolbar-->
                 <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                     <!--begin::Export-->
-                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_customers_export_modal">
+                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
+                        data-bs-target="#kt_customers_export_modal">
                         <i class="ki-duotone ki-exit-up fs-2">
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>Exportar</button>
                     <!--end::Export-->
                     <!--begin::Add customer-->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#kt_modal_agregar_compra">
                         <i class="ki-outline ki-plus fs-2"></i>Registrar comprar
                     </button>
                     <!--end::Add customer-->
@@ -82,8 +85,10 @@
                 <!--begin::Group actions-->
                 <div class="d-flex justify-content-end align-items-center d-none" data-kt-customer-table-toolbar="selected">
                     <div class="fw-bold me-5">
-                        <span class="me-2" data-kt-customer-table-select="selected_count"></span>Selected</div>
-                    <button type="button" class="btn btn-danger" data-kt-customer-table-select="delete_selected">Delete Selected</button>
+                        <span class="me-2" data-kt-customer-table-select="selected_count"></span>Selected
+                    </div>
+                    <button type="button" class="btn btn-danger" data-kt-customer-table-select="delete_selected">Delete
+                        Selected</button>
                 </div>
                 <!--end::Group actions-->
             </div>
@@ -93,17 +98,18 @@
         <!--begin::Card body-->
         <div class="card-body pt-0">
             <!--begin::Table-->
-            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_compras_table">
                 <thead>
-                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                    <th class="min-w-125px">Consecutivo</th>
-                    <th class="min-w-125px">No. remisión</th>
-                    <th class="min-w-125px">Items</th>
-                    <th class="min-w-125px">Valor compra</th>
-                    <th class="min-w-125px">Proveedor</th>
-                    <th class="min-w-125px">Estado</th>
-                    <th class="text-end min-w-70px">Acciones</th>
-                </tr>
+                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-125px">Fecha</th>
+                        <th class="min-w-125px">Consecutivo</th>
+                        <th class="min-w-125px">Proveedor</th>
+                        <th class="min-w-125px">Items</th>
+                        <th class="min-w-125px">Medio de pago</th>
+                        <th class="min-w-125px">Valor compra</th>
+                        <th class="min-w-125px">Observaciones</th>
+                        <th class="text-end min-w-70px">Acciones</th>
+                    </tr>
                 </thead>
                 <tbody class="fw-semibold text-gray-600">
 
@@ -113,8 +119,130 @@
         </div>
         <!--end::Card body-->
     </div>
-
 @endsection
 
+
+
+@section('modales')
+    <!-- Modal para Crear Compra -->
+    <div class="modal fade" id="kt_modal_agregar_compra" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-750px">
+            <div class="modal-content">
+                <form id="kt_agregar_compra_form">
+                    <div class="modal-header">
+                        <h2 class="fw-bold">Agregar Compra</h2>
+                        <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body py-10 px-lg-17">
+                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Fecha</label>
+                                <input type="date" class="form-control form-control-solid form-control-sm"
+                                    v-model="formularioCompra.fecha" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Medio de Pago</label>
+                                <select class="form-select form-select-solid form-select-sm"
+                                    v-model="formularioCompra.medio_pago">
+                                    <option value="Efectivo">Efectivo</option>
+                                    <option value="Credito">Credito</option>
+                                    <option value="Consignacion">Consignacion</option>
+                                    <option value="Transferencia">Transferencia</option>
+                                </select>
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">No. Remisión</label>
+                                <input type="text" class="form-control form-control-solid form-control-sm"
+                                    v-model="formularioCompra.no_remision" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Proveedor</label>
+                                <select class="form-select form-select-solid form-select-sm" name="select_proveedor"  id="select_proveedor" data-placeholder="Selecciona un proveedor"></select>
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Estado</label>
+                                <select class="form-select form-select-solid form-select-sm"
+                                    v-model="formularioCompra.estado">
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Completa">Completa</option>
+                                </select>
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Productos</label>
+                                <div class="border p-2 rounded-sm my-2" v-for="(item, index) in formularioCompra.items" :key="index">
+
+                                    <select class="form-select form-select-solid form-select-sm" :id="'select_producto_' + index" v-model="item.producto_id"></select>
+                                    <input type="number" v-model="item.cantidad" class="form-control form-control-solid form-control-sm my-2" placeholder="Cantidad" @input="actualizarTotalCompra"/>
+                                    <input type="number" v-model="item.precio_unitario" class="form-control form-control-solid form-control-sm my-2" placeholder="Precio Unitario" @input="actualizarTotalCompra" />
+                                    <button type="button" @click="eliminarItem(index)" class="btn btn-danger btn-sm">Eliminar</button>
+
+                                </div>
+                                <button type="button" @click="agregarItem" class="btn btn-primary btn-sm mt-4">Añadir Producto</button>
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Total</label>
+                                <input type="text" class="form-control form-control-solid form-control-sm" v-model="formularioCompra.valor_compra" placeholder="$"/>
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Observaciones</label>
+                                <textarea class="form-control form-control-solid form-control-sm" rows="3" v-model="formularioCompra.observaciones"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer flex-center">
+                        <button type="reset" class="btn btn-light btn-sm me-3"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" @click="crearCompra" class="btn btn-primary btn-sm"
+                            :disabled="cargandoCompra">
+                            <span v-if="!cargandoCompra">Crear compra</span>
+                            <span v-else>
+                                Por favor, espere...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Compra -->
+    <div class="modal fade" id="kt_modal_editar_compra" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-750px">
+            <div class="modal-content">
+                <form id="kt_editar_compra_form">
+                    <div class="modal-header">
+                        <h2 class="fw-bold">Editar Compra</h2>
+                        <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body py-10 px-lg-17">
+                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
+                            <!-- Form fields similar to Add Modal -->
+                            <!-- Similar to the Create Modal, but with v-model bindings adjusted for edit -->
+                        </div>
+                    </div>
+                    <div class="modal-footer flex-center">
+                        <button type="reset" class="btn btn-light btn-sm me-3"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" @click="actualizarCompra" class="btn btn-primary btn-sm"
+                            :disabled="cargandoCompra">
+                            <span v-if="!cargandoCompra">Actualizar compra</span>
+                            <span v-else>
+                                Por favor, espere...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
 @section('scripts')
+@vite(['resources/js/compras/listar_compras.js'])
 @endsection

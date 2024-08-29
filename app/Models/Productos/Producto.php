@@ -3,6 +3,7 @@
 namespace App\Models\Productos;
 
 use App\Models\Categoria\Categoria;
+use App\Models\Compras\Compra;
 use App\Models\Inventario\Inventario;
 use App\Models\Marca\Marca;
 use App\Traits\Uuids;
@@ -37,4 +38,10 @@ class Producto extends Model
         return $this->hasOne(Inventario::class, 'id_producto');
     }
 
+    public function compras()
+    {
+        return $this->belongsToMany(Compra::class, 'compras_tienen_productos')
+                    ->withPivot('cantidad', 'precio_unitario', 'total')
+                    ->withTimestamps();
+    }
 }

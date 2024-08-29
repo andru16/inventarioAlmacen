@@ -2,7 +2,6 @@ import {createApp} from "vue/dist/vue.esm-bundler";
 import spanish from '../data_tables/spanish.json';
 import {activarLoadBtn, desactivarLoadBtn} from "@/ayudas/Load";
 
-
 import swal from "sweetalert";
 
 const appAlmacen = createApp({
@@ -77,6 +76,21 @@ const appAlmacen = createApp({
                 draw: () => {}
             },
             formularioCrearProducto:{},
+
+            /**
+             * Section-Proveedores
+             */
+            tablaListaProveedores: null, // Para almacenar la instancia de DataTable
+            formularioProveedor: {
+                nombre: '',
+                email: '',
+                telefono: '',
+                direccion: '',
+                nombre_contacto: '',
+            },
+            cargandoProveedor: false,
+            modoEdicion: false,
+            proveedorId: null,
         }
     },
 
@@ -170,6 +184,9 @@ const appAlmacen = createApp({
         //Inicializamos la validación del formulario
         this.inicializarFormulariosDeValidacionProducto();
 
+        /**
+         * Section-Proveedores*/
+        this.listadoProveedores();
     },
 
     computed:{
@@ -669,6 +686,178 @@ const appAlmacen = createApp({
 
             return $container;
 
+        },
+
+        /**
+         * Section-Proveedores
+         */
+        listadoProveedores() {
+            this.tablaListaProveedores = $('#kt_proveedores_table').DataTable({
+                "language": spanish,
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "ordering": false,
+                "ajax": {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: "/proveedores/listado-proveedores",
+                    data: function (d) {
+                        return $.extend({}, d, {
+                            "buscar": $('#kt_buscador_proveedor').val().toLowerCase(),
+                        });
+                    }
+                },
+                "columns": [
+                    { data: "nombre", name: "nombre" },
+                    { data: "email", name: "email" },
+                    { data: "telefono", name: "telefono" },
+                    { data: "direccion", name: "direccion" },
+                    { data: "nombre_contacto", name: "nombre_contacto" },
+                    {
+                        data: null,
+                        name: 'acciones',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <a href="#" class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                        Acciones
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <!-- Editar -->
+                                        <a href="#" class="dropdown-item btn-edit-proveedor" data-id="${row.id}">Editar</a>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                ]
+            });
+            $('#kt_buscador_proveedor').on('keyup', () => {
+                this.tablaListaProveedores.draw();
+            });
+
+            $('#kt_proveedores_table').on('click', '.btn-edit-proveedor', (event) => {
+                const proveedorId = $(event.currentTarget).data('id');
+                this.editarProveedor(proveedorId);
+            });
+        },
+
+        crearProveedor() {
+            // Validar los campos antes de enviar
+            if (!this.formularioProveedor.nombre) {
+                swal({
+                    title: 'Campo requerido',
+                    text: 'Por favor ingresa el nombre del proveedor.',
+                    icon: 'warning',
+                    button: 'Cerrar'
+                });
+                return;
+            }
+
+            this.cargandoProveedor = true;
+
+            axios.post('/proveedores/crear-proveedor', this.formularioProveedor, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                swal({
+                    title: '¡Éxito!',
+                    text: 'El proveedor ha sido agregado correctamente.',
+                    icon: 'success',
+                    buttons: 'Cerrar'
+                }).then(() => {
+                    // Actualizar la tabla de proveedores
+                    this.tablaListaProveedores.draw();
+
+                    // Resetear el formulario
+                    this.formularioProveedor = {
+                        nombre: '',
+                        email: '',
+                        telefono: '',
+                        direccion: '',
+                        nombre_contacto: '',
+                    };
+
+                    // Cerrar el modal
+                    $('#kt_modal_agregar_proveedor').modal('hide');
+                });
+            })
+            .catch(error => {
+                swal({
+                    title: 'Error',
+                    text: 'Hubo un problema al agregar el proveedor. Por favor, intenta nuevamente.',
+                    icon: 'error',
+                    buttons: 'Cerrar'
+                });
+            })
+            .finally(() => {
+                this.cargandoProveedor = false;
+            });
+        },
+
+        editarProveedor(proveedorId) {
+            console.log('----------------');
+            console.log('proveedorId',proveedorId);
+            console.log('----------------');
+            axios.get(`/proveedores/${proveedorId}`)
+                .then(response => {
+                    this.formularioProveedor = response.data;
+                    $('#kt_modal_editar_proveedor').modal('show');
+                })
+                .catch(error => {
+                    swal({
+                        title: 'Error',
+                        text: 'Hubo un problema al cargar los datos del proveedor. Por favor, intenta nuevamente.',
+                        icon: 'error',
+                        buttons: 'Cerrar'
+                    });
+                });
+        },
+
+        actualizarProveedor() {
+            if (!this.formularioProveedor.nombre) {
+                swal({
+                    title: 'Campo requerido',
+                    text: 'Por favor ingresa el nombre del proveedor.',
+                    icon: 'warning',
+                    button: 'Cerrar'
+                });
+                return;
+            }
+
+            this.cargandoProveedor = true;
+
+            axios.put(`/proveedores/${this.formularioProveedor.id}`, this.formularioProveedor)
+                .then(response => {
+                    swal({
+                        title: '¡Éxito!',
+                        text: 'El proveedor ha sido actualizado correctamente.',
+                        icon: 'success',
+                        buttons: 'Cerrar'
+                    }).then(() => {
+                        // Actualizar la tabla de proveedores
+                        this.tablaListaProveedores.draw();
+                        $('#kt_modal_editar_proveedor').modal('hide');
+                    });
+                })
+                .catch(error => {
+                    swal({
+                        title: 'Error',
+                        text: 'Hubo un problema al actualizar el proveedor. Por favor, intenta nuevamente.',
+                        icon: 'error',
+                        buttons: 'Cerrar'
+                    });
+                })
+                .finally(() => {
+                    this.cargandoProveedor = false;
+                });
         },
     }
 });

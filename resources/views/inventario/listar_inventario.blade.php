@@ -244,7 +244,7 @@
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
-                                    <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Buscar proveedores" />
+                                    <input type="text" data-kt-customer-table-filter="search" id="kt_buscador_proveedor" class="form-control form-control-solid w-250px ps-12" placeholder="Buscar proveedores" />
                                 </div>
                                 <!--end::Search-->
                             </div>
@@ -256,7 +256,7 @@
                                     <button type="button" class="btn btn-sm btn-light-primary " data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
                                         <i class="ki-outline ki-exit-up fs-2"></i>Exportar
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-primary">
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_agregar_proveedor">
                                         <i class="ki-outline ki-plus fs-2"></i> Crear proveedor
                                     </button>
                                 </div>
@@ -269,17 +269,17 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <!--begin::Table-->
-                                <table class="table align-middle table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
+                                <table class="table align-middle table-row-dashed fs-6 gy-3" id="kt_proveedores_table">
                                     <!--begin::Table head-->
                                     <thead>
                                     <!--begin::Table row-->
                                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-150px">Proveedor</th>
-                                        <th class="text-end pe-3 min-w-100px">Telefono</th>
-                                        <th class="text-end pe-3 min-w-150px">Correo electronico</th>
-                                        <th class="text-end pe-3 min-w-100px">Compras</th>
-                                        <th class="text-end pe-3 min-w-100px">Valor de compras</th>
-                                        <th class="text-end pe-0 min-w-75px">Acciones</th>
+                                        <th class="min-w-125px">Proveedor</th>
+                                        <th class="min-w-125px">Correo electronico</th>
+                                        <th class="min-w-125px">Telefono</th>
+                                        <th class="min-w-125px">Direccion</th>
+                                        <th class="min-w-125px">Contacto</th>
+                                        <th class="min-w-125px"></th>
                                     </tr>
                                     <!--end::Table row-->
                                     </thead>
@@ -754,6 +754,130 @@
         </div>
     </div>
     <!--end::Modal - Venta - Add-->
+    <!--begin::Modal - Proveedores - Add-->
+    <div class="modal fade" id="kt_modal_agregar_proveedor" tabindex="-1" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-750px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Form-->
+                <form id="kt_agregar_proveedor_form">
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <h2 class="fw-bold">Agregar Proveedor</h2>
+                        <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </div>
+                    </div>
+                    <!--end::Modal header-->
+
+                    <!--begin::Modal body-->
+                    <div class="modal-body py-10 px-lg-17">
+                        <!--begin::Scroll-->
+                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
+                            <!--begin::Form fields-->
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Nombre del Proveedor</label>
+                                <input type="text" class="form-control form-control-solid form-control-sm" name="nombre_proveedor" v-model="formularioProveedor.nombre" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control form-control-solid form-control-sm" name="correo_proveedor" v-model="formularioProveedor.email" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Teléfono</label>
+                                <input type="text" class="form-control form-control-solid form-control-sm" name="telefono_proveedor" v-model="formularioProveedor.telefono" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Dirección</label>
+                                <input class="form-control form-control-solid form-control-sm" name="direccion_proveedor" v-model="formularioProveedor.direccion">
+                            </div>
+                            <div class="fv-row">
+                                <label class="form-label">Nombre Contacto</label>
+                                <input class="form-control form-control-solid form-control-sm" name="nombre_contacto" v-model="formularioProveedor.nombre_contacto">
+                            </div>
+                            <!--end::Form fields-->
+                        </div>
+                        <!--end::Scroll-->
+                    </div>
+                    <!--end::Modal body-->
+
+                    <!--begin::Modal footer-->
+                    <div class="modal-footer flex-center">
+                        <button type="reset" class="btn btn-light btn-sm me-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" @click="crearProveedor" class="btn btn-primary btn-sm" :disabled="cargandoProveedor">
+                            <span v-if="!cargandoProveedor">Crear proveedor</span>
+                            <span v-else>
+                                Por favor, espere...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!--end::Modal footer-->
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+    <!--end::Modal - Proveedores - Add-->
+
+    <!--begin::Modal - Proveedores - Edit-->
+    <div class="modal fade" id="kt_modal_editar_proveedor" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-750px">
+            <div class="modal-content">
+                <form id="kt_editar_proveedor_form">
+                    <div class="modal-header">
+                        <h2 class="fw-bold">Editar Proveedor</h2>
+                        <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </div>
+                    </div>
+                    <div class="modal-body py-6 px-lg-17">
+                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
+                            <div class="fv-row mb-5">
+                                <label class="form-label required">Nombre del Proveedor</label>
+                                <input type="text" class="form-control form-control-solid form-control-sm" v-model="formularioProveedor.nombre" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control form-control-solid form-control-sm" v-model="formularioProveedor.email" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Teléfono</label>
+                                <input type="text" class="form-control form-control-solid form-control-sm" v-model="formularioProveedor.telefono" />
+                            </div>
+                            <div class="fv-row mb-5">
+                                <label class="form-label">Dirección</label>
+                                <input class="form-control form-control-solid form-control-sm" v-model="formularioProveedor.direccion">
+                            </div>
+                            <div class="fv-row">
+                                <label class="form-label">Nombre Contacto</label>
+                                <input class="form-control form-control-solid form-control-sm" v-model="formularioProveedor.nombre_contacto">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer flex-center">
+                        <button type="reset" class="btn btn-light btn-sm me-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" @click="actualizarProveedor" class="btn btn-primary btn-sm" :disabled="cargandoProveedor">
+                            <span v-if="!cargandoProveedor">Guardar cambios</span>
+                            <span v-else>
+                                Por favor, espere...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal - Proveedores - Edit-->
+
 @endsection
 
 @section('scripts')

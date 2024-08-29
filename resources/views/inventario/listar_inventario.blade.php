@@ -491,230 +491,239 @@
                             <div class="card">
                                 <!--begin::Card body-->
                                 <div class="card-body p-12">
-                                    <!--begin::Form-->
-                                    <form action="" id="kt_invoice_form">
-                                        <!--begin::Wrapper-->
-                                        <div class="d-flex flex-column align-items-start flex-xxl-row">
-                                            <!--begin::Input group-->
-                                            <div class="d-flex align-items-center flex-equal fw-row me-4 order-2">
-                                                <!--begin::Date-->
-                                                <div class="fs-6 fw-bold text-gray-700 text-nowrap">Fecha:</div>
-                                                <!--end::Date-->
-                                                <!--begin::Input-->
-                                                <div class="position-relative d-flex align-items-center w-150px">
-                                                    <!--begin::Datepicker-->
-                                                    <input type="text" class="form-control form-control-solid form-control-sm" name="fecha_factura" id="fecha_factura" />
-                                                    <!--end::Datepicker-->
-                                                </div>
-                                                <!--end::Input-->
+                                    <!--begin::Wrapper-->
+                                    <div class="d-flex flex-column align-items-start flex-xxl-row">
+                                        <!--begin::Input group-->
+                                        <div class="d-flex align-items-center flex-equal fw-row me-4 order-2">
+                                            <!--begin::Date-->
+                                            <div class="fs-6 fw-bold text-gray-700 text-nowrap">Fecha:</div>
+                                            <!--end::Date-->
+                                            <!--begin::Input-->
+                                            <div class="position-relative d-flex align-items-center w-150px">
+                                                <!--begin::Datepicker-->
+                                                <input type="text" class="form-control form-control-solid form-control-sm" name="fecha_factura" id="fecha_factura" />
+                                                <!--end::Datepicker-->
                                             </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" >
-                                                <span class="fs-2x fw-bold text-gray-800">Factura </span>
-                                            </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="d-flex align-items-center justify-content-end flex-equal order-3 fw-row">
-                                                <!--begin::Date-->
-                                                <div class="fs-6 fw-bold text-gray-700 text-nowrap">Fecha de vencimiento:</div>
-                                                <!--end::Date-->
-                                                <!--begin::Input-->
-                                                <div class="position-relative d-flex align-items-center w-150px">
-                                                    <!--begin::Datepicker-->
-                                                    <input type="text" class="form-control form-control-solid form-control-sm"  name="fecha_vencimiento" id="fecha_vencimiento" />
-                                                    <!--end::Datepicker-->
-                                                </div>
-                                                <!--end::Input-->
-                                            </div>
-                                            <!--end::Input group-->
+                                            <!--end::Input-->
                                         </div>
-                                        <!--end::Top-->
-                                        <!--begin::Separator-->
-                                        <div class="separator separator-dashed my-10"></div>
-                                        <!--end::Separator-->
-                                        <!--begin::Wrapper-->
-                                        <div class="mb-0">
-                                            <!--begin::Row-->
-                                            <div class=" gx-10 mb-5">
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" >
+                                            <span class="fs-2x fw-bold text-gray-800">Factura </span>
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="d-flex align-items-center justify-content-end flex-equal order-3 fw-row">
+                                            <!--begin::Date-->
+                                            <div class="fs-6 fw-bold text-gray-700 text-nowrap">Fecha de vencimiento:</div>
+                                            <!--end::Date-->
+                                            <!--begin::Input-->
+                                            <div class="position-relative d-flex align-items-center w-150px">
+                                                <!--begin::Datepicker-->
+                                                <input type="text" class="form-control form-control-solid form-control-sm"  name="fecha_vencimiento" id="fecha_vencimiento" />
+                                                <!--end::Datepicker-->
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--end::Top-->
+                                    <!--begin::Separator-->
+                                    <div class="separator separator-dashed my-10"></div>
+                                    <!--end::Separator-->
+                                    <!--begin::Wrapper-->
+                                    <div class="mb-0">
+                                        <!--begin::Row-->
+                                        <div class=" gx-10 mb-5">
 
-                                                <div class="col-lg-6 mb-7 fv-row" v-if="!formularioFactura.registrarCliente">
-                                                    <label class="form-label" for="id_cliente">Cliente</label>
-                                                    <select class="form-select form-select-solid form-select-sm mb-2" name="id_cliente"  id="id_cliente" data-placeholder="Selecciona un cliente"></select>
-                                                </div>
-                                                <div class="form-check form-check-custom form-check-solid form-check-sm" style="">
-                                                    <input class="form-check-input" type="checkbox" v-model="formularioFactura.registrarCliente" id="flexRadioLg"/>
-                                                    <label class="form-check-label" for="flexRadioLg">
-                                                        ¿Cliente no encontrado? Registrar nuevo cliente
-                                                    </label>
-                                                </div>
-                                                <!--begin::Col-->
-                                                <div class="col-lg-12 mt-5" v-if="formularioFactura.registrarCliente">
-                                                    <label class="form-label fs-6 fw-bold text-gray-700 mb-3">Cliente</label>
-                                                    <div class="row">
-                                                        <!--begin::Input group-->
-                                                        <div class="col-md-6 mb-5">
-                                                            <input type="text" class="form-control form-control-solid" placeholder="Nombre"  v-model="formularioFactura.nombre_cliente"/>
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                        <!--begin::Input group-->
-                                                        <div class="col-md-6 mb-5">
-                                                            <input type="text" class="form-control form-control-solid" placeholder="Teléfono"  v-model="formularioFactura.telefono"/>
-                                                        </div>
-                                                        <!--end::Input group-->
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="mb-7 fv-row" v-if="!formularioFactura.registrarCliente">
+                                                        <label class="form-label required" for="id_cliente">Cliente</label>
+                                                        <select class="form-select form-select-solid form-select-sm mb-2" name="id_cliente"  id="id_cliente" data-placeholder="Selecciona un cliente"></select>
                                                     </div>
+
+                                                    <div class="form-check form-check-custom form-check-solid form-check-sm" style="">
+                                                        <input class="form-check-input" type="checkbox" v-model="formularioFactura.registrarCliente" id="flexRadioLg"/>
+                                                        <label class="form-check-label" for="flexRadioLg">
+                                                            ¿Registrar cliente?
+                                                        </label>
+                                                    </div>
+                                                    <!--begin::Col-->
                                                 </div>
-                                                <div class="col-lg-6 mt-5 mb-5">
-                                                    <div class="mb-5">
-                                                        <label class="form-label" for="select_estado">Estado de factura</label>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-5 fv-row">
+                                                        <label class="form-label required" for="select_estado">Estado de factura</label>
                                                         <select class="form-select form-select-solid form-select-sm mb-2" name="select_estado"  id="select_estado">
                                                             <option value="" selected>Selecciona un estado</option>
                                                             <option value="Pendiente" >Pendiente</option>
-                                                            <option value="Completa" >Completa</option>
+                                                            <option value="Abono" >Abono</option>
+                                                            <option value="Cancelado" >Cancelado</option>
                                                         </select>
                                                     </div>
+                                                    <div class="mb-5 fv-row" v-show="formularioFactura.estado == 'Abono'">
+                                                        <label class="form-label required" for="abono" >Abono</label>
+                                                        <input type="text" class="form-control-sm form-control-solid form-control mb-2" id="abono" v-model="formularioFactura.abono">
+                                                    </div>
                                                 </div>
-                                                <!--end::Col-->
-
                                             </div>
-                                            <!--end::Row-->
-                                            <!--begin::Table wrapper-->
-                                            <div class="table-responsive mb-10">
-                                                <!--begin::Table-->
-                                                <table class="table g-5 gs-0 mb-0 fw-bold text-gray-700" data-kt-element="items">
-                                                    <!--begin::Table head-->
-                                                    <thead>
-                                                    <tr class="border-bottom fs-7 fw-bold text-gray-700 text-uppercase">
-                                                        <th class="min-w-300px w-475px">Producto</th>
-                                                        <th class="min-w-100px w-100px">Cantidad</th>
-                                                        <th class="min-w-150px w-150px">Precio</th>
-                                                        <th class="min-w-100px w-150px text-end">Total</th>
-                                                        <th class="min-w-75px w-75px text-end">Accion</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <!--end::Table head-->
-                                                    <!--begin::Table body-->
-                                                    <tbody>
-                                                    <tr class="border-bottom border-bottom-dashed" data-kt-element="item"  v-for="(producto, index) in formularioFactura.listaProductos" :key="index">
-                                                        <td class="pe-7">
-                                                            <input type="text" class="form-control form-control-solid mb-2" v-model="producto.nombre"/>
-                                                        </td>
-                                                        <td class="ps-0">
-                                                            <input class="form-control form-control-sm form-control-solid"   v-model="producto.cantidad" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-control-sm form-control-solid text-end"  v-model="producto.precio_format" />
-                                                        </td>
-                                                        <td class="pt-8 text-end text-nowrap">$
-                                                            <span data-kt-element="total" v-text="Intl.NumberFormat('es-ES', {}).format( producto.total )"></span></td>
-                                                        <td class="pt-5 text-end">
-                                                            <button type="button" class="btn btn-sm btn-icon btn-active-color-primary" data-kt-element="remove-item">
-                                                                <i class="ki-duotone ki-trash fs-3">
-                                                                    <span class="path1"></span>
-                                                                    <span class="path2"></span>
-                                                                    <span class="path3"></span>
-                                                                    <span class="path4"></span>
-                                                                    <span class="path5"></span>
-                                                                </i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-bottom-dashed" data-kt-element="item" >
-                                                        <td class="pe-7">
-                                                            <select class="form-select form-select-solid form-select-sm mb-2" name="select_producto"  id="select_producto" data-placeholder="Selecciona un producto"></select>
-                                                        </td>
-                                                        <td class="ps-0">
-                                                            <input class="form-control form-control-sm form-control-solid" type="number" min="1" name="" placeholder="1" v-model="formularioFactura.cantidadAdd" :disabled="!formularioFactura.productoSeleccionado" data-kt-element="quantity" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-control-sm form-control-solid text-end " disabled v-if="formularioFactura.productoSeleccionado" v-model="formularioFactura.productoSeleccionado.precio_format"/>
-                                                            <input type="text" class="form-control form-control-sm form-control-solid text-end " disabled v-else/>
-                                                        </td>
-                                                        <td class="pt-8 text-end text-nowrap">$
-                                                            <span id="total_precio_producto" v-text="totalPrecioProducto"></span></td>
-                                                        <td class="pt-5 text-end">
 
-                                                        </td>
-                                                    </tr>
-
-                                                    </tbody>
-                                                    <!--end::Table body-->
-                                                    <!--begin::Table foot-->
-                                                    <tfoot>
-                                                    <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700">
-                                                        <th class="text-primary">
-                                                            <button class="btn btn-primary btn-sm py-1"  type="button" @click="agregarProducto">Añadir producto</button>
-                                                        </th>
-                                                        <th colspan="2" class="border-bottom border-bottom-dashed ps-0">
-                                                            <div class="d-flex flex-column align-items-start">
-                                                                <div class="fs-5">Subtotal</div>
-                                                                <div class="fs-5 mb-3">Descuento</div>
-                                                            </div>
-                                                        </th>
-
-                                                        <th colspan="2" class="border-bottom border-bottom-dashed text-end">
-                                                            $
-                                                            <span data-kt-element="sub-total" v-text="Intl.NumberFormat('es-ES', {}).format( subtotal )"></span>
-                                                            <input type="text" class="form-control form-control-sm form-control-solid text-end mb-3" id="input_descuento" v-model="formularioFactura.descuento" />
-                                                        </th>
-                                                    </tr>
-                                                    <tr class="align-top fw-bold text-gray-700">
-                                                        <th colspan="5">
-                                                            <div class="form-check form-check-custom form-check-solid form-check-sm" style="">
-                                                                <input class="form-check-input" type="checkbox" v-model="formularioFactura.incluirServicio" id="servicio"/>
-                                                                <label class="form-check-label" for="servicio">
-                                                                    ¿Incluir servicio en la factura?
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="col-lg-12 mt-5" v-show="formularioFactura.incluirServicio">
-                                                                <div class="row">
-                                                                    <!--begin::Input group-->
-                                                                    <div class="col-md-6 mb-5">
-                                                                        <label class="fs-6 fw-semibold mb-2 required" for="colaboradores_alistamiento">Mecanicos del servicio</label>
-                                                                        <select id="colaboradores_alistamiento" class="form-select form-select-solid"
-                                                                                data-placeholder="Selecciona los colaboradores"
-                                                                                name="colaboradores_alistamiento[]" multiple="multiple" v-model="formularioFactura.colaboradores">
-                                                                            @foreach($colaboradores as $colaborador)
-                                                                                <option value='{{ $colaborador->id }}'>{{ $colaborador->nombre_colaborador }}</option>
-                                                                            @endforeach
-
-                                                                        </select>
-                                                                    </div>
-                                                                    <!--end::Input group-->
-                                                                    <!--begin::Input group-->
-                                                                    <div class="col-md-6 mb-5">
-                                                                        <label class="fs-6 fw-semibold mb-2 required" for="input_servicio">Valor servicio</label>
-                                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end" id="input_servicio" v-model="formularioFactura.servicio" />
-                                                                    </div>
-                                                                    <!--end::Input group-->
-                                                                </div>
-                                                            </div>
-                                                            <div class="  d-flex flex-column p-2" v-if="formularioFactura.incluirServicio">
-                                                                <label for="" class="form-label required">Descripción servicio</label>
-                                                                <textarea class="form-control form-control form-control-solid" data-kt-autosize="true" v-model="formularioFactura.descripcionServicio"></textarea>
-                                                            </div>
-                                                        </th>
-
-                                                    </tr><tr class="align-top fw-bold text-gray-700">
-                                                        <th></th>
-                                                        <th colspan="2" class="fs-4 ps-0">Total</th>
-                                                        <th colspan="2" class="text-end fs-4 text-nowrap">$
-                                                            <span data-kt-element="grand-total" v-text="Intl.NumberFormat('es-ES', {}).format( total )"></span>
-                                                        </th>
-                                                    </tr>
-                                                    </tfoot>
-                                                    <!--end::Table foot-->
-                                                </table>
-
-
+                                            <div class="row" v-if="formularioFactura.registrarCliente">
+                                                <!--begin::Input group-->
+                                                <div class="col-md-6 mb-5">
+                                                    <label for="nombre" class="form-label required">Nombre del cliente</label>
+                                                    <input type="text" class="form-control form-control-solid" placeholder="Ingresa el nombre" id="nombre"  v-model="formularioFactura.nombre_cliente"/>
+                                                </div>
+                                                <!--end::Input group-->
+                                                <!--begin::Input group-->
+                                                <div class="col-md-6 mb-5">
+                                                    <label for="telefono" class="form-label required">Número de teléfono</label>
+                                                    <input type="text" class="form-control form-control-solid" placeholder="Ingresa el teléfono" id="telefono"  v-model="formularioFactura.telefono"/>
+                                                </div>
+                                                <!--end::Input group-->
                                             </div>
-                                            <!--end::Table-->
+
+                                            <div class="form-check form-check-custom form-check-solid form-check-sm mt-5" style="">
+                                                <input class="form-check-input" type="checkbox" v-model="formularioFactura.incluirServicio" id="servicio"/>
+                                                <label class="form-check-label" for="servicio">
+                                                    ¿Incluir servicio en la factura?
+                                                </label>
+                                            </div>
+
+                                            <div class="col-lg-12 mt-5" v-show="formularioFactura.incluirServicio">
+                                                <div class="row">
+                                                    <!--begin::Input group-->
+                                                    <div class="col-md-6 mb-5">
+                                                        <label class="fs-6 fw-semibold mb-2 required" for="colaboradores_alistamiento">Mecanicos del servicio</label>
+                                                        <select id="colaboradores_servicio" class="form-select form-select-solid form-select-sm"
+                                                                data-placeholder="Selecciona los colaboradores"
+                                                                name="colaboradores_servicio[]" multiple="multiple">
+                                                            @foreach($colaboradores as $colaborador)
+                                                                <option value='{{ $colaborador->id }}'>{{ $colaborador->nombre_colaborador }}</option>
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                    <!--begin::Input group-->
+                                                    <div class="col-md-6 mb-5">
+                                                        <label class="fs-6 fw-semibold mb-2 required" for="input_servicio">Valor servicio</label>
+                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end" id="input_servicio" v-model="formularioFactura.servicio" />
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                </div>
+                                            </div>
+                                            <div class="  d-flex flex-column p-2" v-if="formularioFactura.incluirServicio">
+                                                <label for="" class="form-label required">Descripción servicio</label>
+                                                <textarea class="form-control form-control form-control-solid" data-kt-autosize="true" v-model="formularioFactura.descripcionServicio"></textarea>
+                                            </div>
+
+
+
+
+                                            <!--end::Col-->
 
                                         </div>
-                                        <!--end::Wrapper-->
-                                    </form>
-                                    <!--end::Form-->
+                                        <!--end::Row-->
+                                        <!--begin::Table wrapper-->
+                                        <div class="table-responsive mb-10">
+                                            <!--begin::Table-->
+                                            <table class="table g-5 gs-0 mb-0 fw-bold text-gray-700" data-kt-element="items">
+                                                <!--begin::Table head-->
+                                                <thead>
+                                                <tr class="border-bottom fs-7 fw-bold text-gray-700 text-uppercase">
+                                                    <th class="min-w-300px w-475px">Producto</th>
+                                                    <th class="min-w-100px w-100px">Cantidad</th>
+                                                    <th class="min-w-150px w-150px">Precio</th>
+                                                    <th class="min-w-100px w-150px text-end">Total</th>
+                                                    <th class="min-w-75px w-75px text-end">Accion</th>
+                                                </tr>
+                                                </thead>
+                                                <!--end::Table head-->
+                                                <!--begin::Table body-->
+                                                <tbody>
+                                                <tr class="border-bottom border-bottom-dashed" data-kt-element="item"  v-for="(producto, index) in formularioFactura.listaProductos" :key="index">
+                                                    <td class="pe-7">
+                                                        <input type="text" class="form-control form-control-solid mb-2" v-model="producto.nombre"/>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <input class="form-control form-control-sm form-control-solid"   v-model="producto.cantidad" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end"  v-model="producto.precio_format" />
+                                                    </td>
+                                                    <td class="pt-8 text-end text-nowrap">$
+                                                        <span data-kt-element="total" v-text="Intl.NumberFormat('es-ES', {}).format( producto.total )"></span></td>
+                                                    <td class="pt-5 text-end">
+                                                        <button type="button" class="btn btn-sm btn-icon btn-active-color-primary" data-kt-element="remove-item">
+                                                            <i class="ki-duotone ki-trash fs-3">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                                <span class="path3"></span>
+                                                                <span class="path4"></span>
+                                                                <span class="path5"></span>
+                                                            </i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-bottom-dashed" data-kt-element="item" >
+                                                    <td class="pe-7">
+                                                        <select class="form-select form-select-solid form-select-sm mb-2" name="select_producto"  id="select_producto" data-placeholder="Selecciona un producto"></select>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <input class="form-control form-control-sm form-control-solid" type="number" min="1" name="" placeholder="1" v-model="formularioFactura.cantidadAdd" :disabled="!formularioFactura.productoSeleccionado" data-kt-element="quantity" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end " disabled v-if="formularioFactura.productoSeleccionado" v-model="formularioFactura.productoSeleccionado.precio_format"/>
+                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end " disabled v-else/>
+                                                    </td>
+                                                    <td class="pt-8 text-end text-nowrap">$
+                                                        <span id="total_precio_producto" v-text="totalPrecioProducto"></span></td>
+                                                    <td class="pt-5 text-end">
+
+                                                    </td>
+                                                </tr>
+
+                                                </tbody>
+                                                <!--end::Table body-->
+                                                <!--begin::Table foot-->
+                                                <tfoot>
+                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700">
+                                                    <th class="text-primary">
+                                                        <button class="btn btn-primary btn-sm py-1"  type="button" @click="agregarProducto">Añadir producto</button>
+                                                    </th>
+                                                    <th colspan="2" class="border-bottom border-bottom-dashed ps-0">
+                                                        <div class="d-flex flex-column align-items-start">
+                                                            <div class="fs-5">Subtotal</div>
+                                                            <div class="fs-5 mb-3">Descuento</div>
+                                                        </div>
+                                                    </th>
+
+                                                    <th colspan="2" class="border-bottom border-bottom-dashed text-end">
+                                                        $
+                                                        <span data-kt-element="sub-total" v-text="Intl.NumberFormat('es-ES', {}).format( subtotal )"></span>
+                                                        <input type="text" class="form-control form-control-sm form-control-solid text-end mb-3" id="input_descuento" v-model="formularioFactura.descuento" />
+                                                    </th>
+                                                </tr>
+                                                <tr class="align-top fw-bold text-gray-700">
+                                                </tr><tr class="align-top fw-bold text-gray-700">
+                                                    <th></th>
+                                                    <th colspan="2" class="fs-4 ps-0">Total</th>
+                                                    <th colspan="2" class="text-end fs-4 text-nowrap">$
+                                                        <span data-kt-element="grand-total" v-text="Intl.NumberFormat('es-ES', {}).format( total )"></span>
+                                                    </th>
+                                                </tr>
+                                                </tfoot>
+                                                <!--end::Table foot-->
+                                            </table>
+
+
+                                        </div>
+                                        <!--end::Table-->
+
+                                    </div>
+                                    <!--end::Wrapper-->
                                 </div>
                                 <!--end::Card body-->
                             </div>

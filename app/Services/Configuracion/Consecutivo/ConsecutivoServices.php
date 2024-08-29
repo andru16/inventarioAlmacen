@@ -11,7 +11,7 @@ class ConsecutivoServices implements ConsecutivoServicesInterfaces
         'factura' => ['tabla' => 'facturas', 'campo' => 'numero_factura'],
         'venta' => ['tabla' => 'ventas', 'campo' => 'numero_venta'],
         'compra' => ['tabla' => 'compras', 'campo' => 'numero_ingreso'],
-        'pago' => ['tabla' => 'pagos_facturas', 'campo' => 'consecutivo'],
+        'pago' => ['tabla' => 'pagos_facturas', 'campo' => 'numero_pago'],
     ];
 
     public function generarConsecutivo(string $tipo)
@@ -31,10 +31,10 @@ class ConsecutivoServices implements ConsecutivoServicesInterfaces
     private function obtenerPrefijo(string $tipo)
     {
         $prefijos = [
-            'factura' => 'FT',
+            'factura' => 'FV',
             'venta' => 'VTA',
             'compra' => 'CMP',
-            'pago' => 'PG',
+            'pago' => 'CP',
         ];
 
         return $prefijos[$tipo] ?? '';
@@ -64,8 +64,8 @@ class ConsecutivoServices implements ConsecutivoServicesInterfaces
     private function formatearConsecutivo(string $tipo, string $prefijo, int $numero)
     {
         if ($tipo === 'factura') {
-            $año = date('Y');
-            return "{$año}-{$prefijo}-" . str_pad($numero, 6, '0', STR_PAD_LEFT);
+            $anio = date('Y');
+            return "{$anio}-{$prefijo}-" . str_pad($numero, 6, '0', STR_PAD_LEFT);
         }
 
         return "{$prefijo}-" . str_pad($numero, 6, '0', STR_PAD_LEFT);

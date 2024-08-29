@@ -32,13 +32,17 @@ class FacturasServices implements FacturasServicesInterfaces
 
         $consecutivo = $this->consecutivoServicesInterfaces->generarConsecutivo('factura');
 
+        $descuento = $this->decimales->convertirEnDecimalSQLSrv($ventaRequest->descuento);
+        $valorVenta = $venta->valor_venta;
+        $valorFactura = $valorVenta - $descuento;
+
         $factura = new Factura();
         $factura->id_cliente = $cliente->id;
         $factura->id_venta = $venta->id;
         $factura->numero_factura = $consecutivo;
         $factura->fecha_emision = $ventaRequest->fecha_factura;
         $factura->valor_factura = $venta->valor_venta;
-        $factura->descuento = $this->decimales->convertirEnDecimalSQLSrv($ventaRequest->descuento);
+        $factura->descuento = $valorFactura;
         $factura->fecha_vencimiento = $ventaRequest->fecha_vencimiento;
         $factura->estado_factura = $ventaRequest->estado;
         $factura->save();
@@ -55,6 +59,7 @@ class FacturasServices implements FacturasServicesInterfaces
      * @param $factura
      * @param $venta
      * @return void
+     * @throws \Exception
      */
     public function registrarItemsFactura($factura, $venta)
     {

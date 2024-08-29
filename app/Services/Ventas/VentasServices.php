@@ -20,7 +20,16 @@ class VentasServices implements VentasServicesInterfaces
         protected Decimales $decimales,
     )
     {}
-    public function registrarVenta($ventaRequest): Object
+
+
+    /**
+     * Registramos la venta realizada
+     *
+     * @param $ventaRequest
+     * @return Venta
+     * @throws \Exception
+     */
+    public function registrarVenta($ventaRequest): Venta
     {
 
         $consecutivoSalida = $this->consecutivoServicesInterfaces->generarConsecutivo('venta');
@@ -37,6 +46,13 @@ class VentasServices implements VentasServicesInterfaces
         return $venta;
     }
 
+    /**
+     * Registramos los productos que fueron incluidos en la venta
+     * @param $productos
+     * @param $idVenta
+     * @return void
+     * @throws \Exception
+     */
     public function registrarItemsVenta($productos, $idVenta)
     {
         $itemsVenta = [];

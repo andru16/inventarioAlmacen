@@ -65,6 +65,7 @@ const appAlmacen = createApp({
                 incluirServicio: false,
                 colaboradores: [],
                 descripcionServicio: '',
+                abono: '',
             },
 
 
@@ -89,13 +90,12 @@ const appAlmacen = createApp({
         this.selectProductos('#select_producto');
         this.selectClientes('#id_cliente');
 
-        $("#colaboradores_alistamiento").select2({
+        $("#colaboradores_servicio").select2({
             dropdownParent: $('#kt_modal_registrar_venta'),
-            tags: true,
-            tokenSeparators: [',', ' ']
+            templateResult: this.formatoSelect2
         })
 
-        // Convertimos el campo de cantidad en formato decial estándar
+        // Convertimos el campo de descuento en formato decial estándar
         let inputDescuento = document.querySelector('#input_descuento');
         new AutoNumeric(inputDescuento, {
             decimalCharacter : ',',
@@ -105,9 +105,19 @@ const appAlmacen = createApp({
             decimalPlaces: 2
         });
 
-        // Convertimos el campo de cantidad en formato decial estándar
+        // Convertimos el campo de servicio en formato decial estándar
         let inputServicio = document.querySelector('#input_servicio');
         new AutoNumeric(inputServicio, {
+            decimalCharacter : ',',
+            digitGroupSeparator : '.',
+            emptyInputBehavior: 0,
+            modifyValueOnWheel: false,
+            decimalPlaces: 2
+        });
+
+        // Convertimos el campo de abono en formato decial estándar
+        let inputAbono = document.querySelector('#abono');
+        new AutoNumeric(inputAbono, {
             decimalCharacter : ',',
             digitGroupSeparator : '.',
             emptyInputBehavior: 0,
@@ -141,9 +151,7 @@ const appAlmacen = createApp({
             dropdownParent: $('#kt_modal_registrar_venta'),
         });
         $('#select_estado').on('select2:select', (e) => {
-            console.log(e.params.data)
             this.formularioFactura.estado = e.params.data.text;
-            // $('#total_precio_producto').html(e.params.data.precio_format);
         })
 
 
@@ -351,7 +359,7 @@ const appAlmacen = createApp({
             });
 
             //Limpiamos la data
-            this.formularioFactura.cantidadAdd = 1
+            this.formularioFactura.cantidadAdd = 1;
             this.formularioFactura.totalPrecioProducto = 0;
             this.formularioFactura.productoSeleccionado.id = '';
             this.formularioFactura.productoSeleccionado.precio_format = 0.00;
@@ -364,11 +372,19 @@ const appAlmacen = createApp({
 
             activarLoadBtn('btn_crear_factura')
 
+            //Obtenemos los ids seleccionado de select de colaboradores que realizaron el servicio
+            let form = $('#kt_registrar_venta_form').serializeArray();
+            form.forEach(field => {
+                if (field.name == 'colaboradores_servicio[]'){
+                    this.formularioFactura.colaboradores.push(field.value)
+                }
+            })
+            console.log(this.formularioFactura.colaboradores)
             this.formularioFactura.fecha_factura = $('#fecha_factura').val();
             this.formularioFactura.fecha_vencimiento = $('#fecha_vencimiento').val();
             this.formularioFactura.totalFactura = this.total;
 
-            axios.post('/ventas/registrar-venta', this.formularioFactura, {
+            axios.post('/ventas/registrar-venta', this.formularioFactura, form, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -376,20 +392,48 @@ const appAlmacen = createApp({
             })
                 .then( res => {
 
-                    // swal({
-                    //     title: '¡Eso es todo!',
-                    //     text: 'Venta exitosa!',
-                    //     icon: 'success',
-                    //     buttons: 'Ver inventario',
-                    //     closeOnEsc: false,
-                    //     closeOnClickOutside: false
-                    // }).then( confirmacion => {
-                    //
-                    //     if( confirmacion ) {
-                    //         location.reload()
-                    //     }
-                    //
-                    // });
+                    swal({
+                        title: '¡Eso es todo!',
+                        text: 'Venta exitosa!',
+                        icon: 'success',
+                        buttons: 'Ver inventario',
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    }).then( confirmacion => {
+
+                        if( confirmacion ) {
+                            this.tablaListaInventario.draw();
+
+                            $('#kt_registrar_venta_form')[0].reset();
+
+                            $('#select_producto').empty().trigger('change');
+                            $('#id_cliente').empty().trigger('change');
+                            $('#colaboradores_servicio').empty().trigger('change');
+                            $('#select_estado').empty().trigger('change');
+
+                            this.formularioFactura = {
+                                productoSeleccionado: null,
+                                    cantidadAdd: 1,
+                                    listaProductos:[],
+                                    totalPrecioProducto:0,
+                                    descuento:'',
+                                    servicio:'',
+                                    fecha_factura: '',
+                                    fecha_vencimiento:'',
+                                    estado: '',
+                                    nombre_cliente: '',
+                                    telefono: '',
+                                    totalFactura: 0,
+                                    id_cliente: '',
+                                    registrarCliente:false,
+                                    incluirServicio: false,
+                                    colaboradores: [],
+                                    descripcionServicio: '',
+                                    abono: '',
+                            };
+                        }
+
+                    });
 
                 })
                 .catch( respuesta => {
@@ -602,6 +646,28 @@ const appAlmacen = createApp({
                     }
                 }
             );
+
+        },
+        formatoSelect2( elementoDeOpcion ) {
+
+            if (elementoDeOpcion.loading) {
+                return elementoDeOpcion.text;
+            }
+
+            const data = $(elementoDeOpcion.element).data();
+
+            let $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                // "<div class='select2-result-repository__avatar'><img src='" + data.imagen + "' /></div>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(elementoDeOpcion.text);
+
+            return $container;
 
         },
     }

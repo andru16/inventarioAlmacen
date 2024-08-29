@@ -3,6 +3,7 @@
 namespace App\Interfaces\Clientes;
 
 use App\Http\Requests\Clientes\ClienteRequest;
+use App\Models\Clientes\ClienteAlmacen;
 use Illuminate\Http\Request;
 
 interface ClientesServicesInterfaces
@@ -10,6 +11,13 @@ interface ClientesServicesInterfaces
 
     public function selectClientes(Request $request);
 
-    public function crearCliente( $nombre, $telefono);
+    /**
+     * Registramos el nuevo cliente del almacen
+     *
+     * @param $nombre
+     * @param $telefono
+     * @return ClienteAlmacen
+     */
+    public function crearCliente( $nombre, $telefono):ClienteAlmacen;
 
 }

@@ -77,6 +77,20 @@ const appAlmacen = createApp({
         this.selectProveedores('#select_proveedor');
         this.selectProductos('#select_producto');
 
+        $('#select_estado').select2({
+            dropdownParent: $('#kt_modal_agregar_compra'),
+        });
+        $('#select_estado').on('select2:select', (e) => {
+            this.formularioCompra.medio_pago = e.params.data.text;
+        })
+
+        $('#select_metodo_pago').select2({
+            dropdownParent: $('#kt_modal_agregar_compra'),
+        });
+        $('#select_metodo_pago').on('select2:select', (e) => {
+            this.formularioCompra.estado = e.params.data.text;
+        })
+
         // Inicializar datepicker para la fecha
         $('#fecha_compra').daterangepicker({
             singleDatePicker: true,
@@ -116,7 +130,7 @@ const appAlmacen = createApp({
                         });
                     }
                 },
-                
+
 
                 "columns": [
                     { data: "fecha", name: "fecha" },

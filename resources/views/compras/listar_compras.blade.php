@@ -67,7 +67,7 @@
                 <!--begin::Toolbar-->
                 <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                     <!--begin::Export-->
-                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-sm btn-light-primary me-3" data-bs-toggle="modal"
                         data-bs-target="#kt_customers_export_modal">
                         <i class="ki-duotone ki-exit-up fs-2">
                             <span class="path1"></span>
@@ -75,7 +75,7 @@
                         </i>Exportar</button>
                     <!--end::Export-->
                     <!--begin::Add customer-->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#kt_modal_agregar_compra">
                         <i class="ki-outline ki-plus fs-2"></i>Registrar comprar
                     </button>
@@ -126,7 +126,7 @@
 @section('modales')
     <!-- Modal para Crear Compra -->
     <div class="modal fade" id="kt_modal_agregar_compra" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mw-750px">
+        <div class="modal-dialog modal-dialog-centered mw-950px">
             <div class="modal-content">
                 <form id="kt_agregar_compra_form">
                     <div class="modal-header">
@@ -136,47 +136,72 @@
                         </div>
                     </div>
                     <div class="modal-body py-10 px-lg-17">
-                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
-                            <div class="fv-row mb-5">
-                                <label class="form-label required">Fecha</label>
-                                <input type="date" class="form-control form-control-solid form-control-sm"
-                                    v-model="formularioCompra.fecha" />
+                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto" data-kt-scroll-offset="300px">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="fv-row mb-5">
+                                        <label class="form-label required">Fecha</label>
+                                        <input type="date" class="form-control form-control-solid form-control-sm"
+                                               v-model="formularioCompra.fecha" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="fv-row mb-5">
+                                        <label class="form-label required">No. Remisión</label>
+                                        <input type="text" class="form-control form-control-solid form-control-sm"
+                                               v-model="formularioCompra.no_remision" />
+                                    </div>
+                                </div>
                             </div>
-                            <div class="fv-row mb-5">
-                                <label class="form-label required">Medio de Pago</label>
-                                <select class="form-select form-select-solid form-select-sm"
-                                    v-model="formularioCompra.medio_pago">
-                                    <option value="Efectivo">Efectivo</option>
-                                    <option value="Credito">Credito</option>
-                                    <option value="Consignacion">Consignacion</option>
-                                    <option value="Transferencia">Transferencia</option>
-                                </select>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="fv-row mb-5">
+                                        <label class="form-label required" for="select_metodo_pago">Medio de Pago</label>
+                                        <select class="form-select form-select-solid form-select-sm" id="select_metodo_pago">
+                                            <option value="">Selecciona un medio de pago</option>
+                                            <option value="Efectivo">Efectivo</option>
+                                            <option value="Credito">Credito</option>
+                                            <option value="Consignacion">Consignacion</option>
+                                            <option value="Transferencia">Transferencia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="fv-row mb-5">
+                                        <label class="form-label required" for="select_estado">Estado</label>
+                                        <select class="form-select form-select-solid form-select-sm" id="select_estado" >
+                                            <option value="">Selecciona un estado</option>
+                                            <option value="Pendiente">Pendiente</option>
+                                            <option value="Completa">Completa</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="fv-row mb-5">
-                                <label class="form-label required">No. Remisión</label>
-                                <input type="text" class="form-control form-control-solid form-control-sm"
-                                    v-model="formularioCompra.no_remision" />
-                            </div>
+
                             <div class="fv-row mb-5">
                                 <label class="form-label required">Proveedor</label>
                                 <select class="form-select form-select-solid form-select-sm" name="select_proveedor"  id="select_proveedor" data-placeholder="Selecciona un proveedor"></select>
                             </div>
-                            <div class="fv-row mb-5">
-                                <label class="form-label required">Estado</label>
-                                <select class="form-select form-select-solid form-select-sm"
-                                    v-model="formularioCompra.estado">
-                                    <option value="Pendiente">Pendiente</option>
-                                    <option value="Completa">Completa</option>
-                                </select>
-                            </div>
+
                             <div class="fv-row mb-5">
                                 <label class="form-label required">Productos</label>
                                 <div class="border p-2 rounded-sm my-2" v-for="(item, index) in formularioCompra.items" :key="index">
 
-                                    <select class="form-select form-select-solid form-select-sm" :id="'select_producto_' + index" v-model="item.producto_id"></select>
-                                    <input type="number" v-model="item.cantidad" class="form-control form-control-solid form-control-sm my-2" placeholder="Cantidad" @input="actualizarTotalCompra"/>
-                                    <input type="number" v-model="item.precio_unitario" class="form-control form-control-solid form-control-sm my-2" placeholder="Precio Unitario" @input="actualizarTotalCompra" />
-                                    <button type="button" @click="eliminarItem(index)" class="btn btn-danger btn-sm">Eliminar</button>
+                                    <div class="d-flex justify-content-between">
+                                        <select class="form-select form-select-solid form-select-sm mt-1" :id="'select_producto_' + index" v-model="item.producto_id" data-placeholder="Selecciona un producto"></select>
+                                        <input type="number" v-model="item.cantidad" class="form-control form-control-solid form-control-sm m-1" placeholder="Cantidad" @input="actualizarTotalCompra"/>
+                                        <input type="number" v-model="item.precio_unitario" class="form-control form-control-solid form-control-sm m-1" placeholder="Precio Unitario" @input="actualizarTotalCompra" />
+                                        <button type="button" class="btn btn-sm btn-light-danger m-1" @click="eliminarItem(index)">
+                                            <i class="ki-duotone ki-trash fs-3">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                                <span class="path5"></span>
+                                            </i>
+                                        </button>
+
+                                    </div>
 
                                 </div>
                                 <button type="button" @click="agregarItem" class="btn btn-primary btn-sm mt-4">Añadir Producto</button>
@@ -185,7 +210,7 @@
                                 <label class="form-label">Total</label>
                                 <input type="text" class="form-control form-control-solid form-control-sm" v-model="formularioCompra.valor_compra" placeholder="$"/>
                             </div>
-                            <div class="fv-row mb-5">
+                            <div class="fv-row">
                                 <label class="form-label">Observaciones</label>
                                 <textarea class="form-control form-control-solid form-control-sm" rows="3" v-model="formularioCompra.observaciones"></textarea>
                             </div>

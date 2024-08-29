@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('valor_factura', 17, 2)->default(0);
             $table->decimal('descuento', 17, 2)->default(0);
             $table->date('fecha_vencimiento');
-            $table->enum('estado_factura', ['Pendiente', 'Cancelada'])->default('Pendiente');
+            $table->enum('estado_factura', ['Pendiente','Abono', 'Cancelado'])->default('Pendiente');
             $table->dateTime('creado_en')->useCurrent();
             $table->dateTime('actualizado_en')->useCurrent();
             $table->primary('id');

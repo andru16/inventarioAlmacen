@@ -66,14 +66,14 @@
                 <!--begin::Toolbar-->
                 <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                     <!--begin::Export-->
-                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_customers_export_modal">
+                    <button type="button" class="btn btn-sm btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_customers_export_modal">
                         <i class="ki-duotone ki-exit-up fs-2">
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>Exportar</button>
                     <!--end::Export-->
                     <!--begin::Add customer-->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer">
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer">
                         <i class="ki-outline ki-plus fs-2"></i>Nueva venta
                     </button>
                     <!--end::Add customer-->

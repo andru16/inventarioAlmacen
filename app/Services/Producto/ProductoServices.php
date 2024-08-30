@@ -5,6 +5,7 @@ namespace App\Services\Producto;
 
 
 use App\Http\Requests\Producto\ProductoRequest;
+use App\Interfaces\Configuracion\Consecutivo\ConsecutivoServicesInterfaces;
 use App\Interfaces\Producto\ProductuoServicesInterfaces;
 use App\Models\Inventario\Inventario;
 use App\Models\Productos\Producto;
@@ -13,6 +14,12 @@ use Mockery\Exception;
 
 class ProductoServices implements ProductuoServicesInterfaces
 {
+
+    public function __construct
+    (
+        protected ConsecutivoServicesInterfaces $consecutivoServicesInterfaces,
+    ){}
+
     public function crearProducto(ProductoRequest $productoRequest)
     {
 
@@ -47,6 +54,8 @@ class ProductoServices implements ProductuoServicesInterfaces
         $producto->stock_minimo   = $productoRequest['stock_minimo'];
         $producto->save();
 
+        $producto->codigo_de_barras = $this->consecutivoServicesInterfaces->generarCodigoDeBarras($producto->id);
+        $producto->save();
         //Regisramos el producto en el inventario
         $itemInventario = Inventario::where('id_producto', $producto->id)->first();
 

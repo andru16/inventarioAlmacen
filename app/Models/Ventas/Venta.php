@@ -2,6 +2,7 @@
 
 namespace App\Models\Ventas;
 
+use App\Models\Facturacion\Factura;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,4 +24,10 @@ class Venta extends Model
     {
         return $this->hasMany(VentaTieneProducto::class, 'id_venta');
     }
+
+    public function factura()
+    {
+        return $this->hasOne(Factura::class, 'id_venta');
+    }
+
 }

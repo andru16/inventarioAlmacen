@@ -257,7 +257,7 @@ const appAlmacen = createApp({
                     }
                 },
                 "columns": [
-                    { data: "nombre", name: "nombre", sClass: "text-center"},
+                    { data: "nombre", name: "nombre", sClass: "text-start"},
                     { data: "referencia", name: "referencia"},
                     { data: "segunda_referencia", name: "segunda_referencia"},
                     { data: "categoria", name: "categoria"},

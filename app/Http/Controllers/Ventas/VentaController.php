@@ -14,8 +14,11 @@ use App\Interfaces\Pagos\PagosFacturaServicesInterfaces;
 use App\Interfaces\Servicios\ServiciosServicesInterfaces;
 use App\Interfaces\Ventas\VentasServicesInterfaces;
 use App\Models\Inventario\Inventario;
+use App\Models\Ventas\Venta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class VentaController extends Controller
 {
@@ -89,6 +92,52 @@ class VentaController extends Controller
                 'nombre' => $exception->getMessage()
             ], 422);
         }
+    }
+
+    public function listarVentas(Request $request)
+    {
+        $ventas = Venta::with(['factura' => function($query) {
+            $query->with('cliente');
+        }]);
+
+        return DataTables::eloquent($ventas)
+            ->addColumn('numero_venta', function(Inventario $inventario) {
+                return  $inventario->producto->nombre ;
+
+            })->addColumn('fecha_venta', function(Inventario $inventario) {
+                return $inventario->producto->referencia;
+
+            })->addColumn('valor_venta', function(Inventario $inventario) {
+                return $inventario->producto->segunda_referencia;
+
+            })->addColumn('cantidad_productos', function(Inventario $inventario) {
+                return $inventario->producto->categoria->nombre;
+
+            })->addColumn('estado', function(Inventario $inventario) {
+                return $inventario->producto->marca->nombre;
+
+            })->setRowId(function (Inventario $inventario) {
+                return $inventario ->id;
+            })
+
+            ->filter( function($query) {
+
+                $buscar = request('buscar');
+//
+                if ( !empty( $buscar ) ) {
+
+                    $query->where(function ($query) use($buscar){
+                        $query->where('nombre', 'like', "%" . $buscar . "%")
+                            ->orWhere('referencia', 'like', "%" . $buscar . "%");
+                    });
+
+                }
+
+            })
+            ->order( function( $query ) {
+//                $query->orderBy('nombre', 'desc');
+            })
+            ->toJson();
     }
 
 }

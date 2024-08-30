@@ -2,6 +2,7 @@
 
 namespace App\Models\Facturacion;
 
+use App\Models\Clientes\ClienteAlmacen;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,11 @@ class Factura extends Model
     public function servicios()
     {
 //        return $this->hasMany(Servic)
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo(ClienteAlmacen::class, 'id_cliente');
     }
 
 }

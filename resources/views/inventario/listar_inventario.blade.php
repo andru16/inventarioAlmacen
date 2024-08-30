@@ -633,7 +633,7 @@
                                                 <!--begin::Table head-->
                                                 <thead>
                                                 <tr class="border-bottom fs-7 fw-bold text-gray-700 text-uppercase">
-                                                    <th class="min-w-300px w-475px">Producto</th>
+                                                    <th class="min-w-300px w-475px text-start">Producto</th>
                                                     <th class="min-w-100px w-100px">Cantidad</th>
                                                     <th class="min-w-150px w-150px">Precio</th>
                                                     <th class="min-w-100px w-150px text-end">Total</th>

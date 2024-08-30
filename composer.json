@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.5",
+        "milon/barcode": "^11.0",
         "ramsey/uuid": "^4.7",
         "spatie/laravel-permission": "^6.9",
         "webmozart/assert": "^1.11",

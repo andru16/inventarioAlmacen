@@ -4,6 +4,8 @@ namespace App\Services\Configuracion\Consecutivo;
 
 use App\Interfaces\Configuracion\Consecutivo\ConsecutivoServicesInterfaces;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Milon\Barcode\DNS1D;
 
 class ConsecutivoServices implements ConsecutivoServicesInterfaces
 {
@@ -69,5 +71,28 @@ class ConsecutivoServices implements ConsecutivoServicesInterfaces
         }
 
         return "{$prefijo}-" . str_pad($numero, 6, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Generamos el codigo de barras para un producto
+     *
+     * @param $idProducto
+     * @return mixed
+     */
+    public function generarCodigoDeBarras($idProducto)
+    {
+
+        $codigo_de_barras = new DNS1D();
+        $img_codigo_de_barras = $codigo_de_barras->getBarcodePNG($idProducto, 'C39+', 3, 33);
+
+        if (!$img_codigo_de_barras){
+            throw new \Exception('No se pudo generar la imagen del código de barras');
+        }
+
+        $ruta = 'productos/codigos/' . $idProducto . '.png';
+        Storage::put($ruta, base64_decode($img_codigo_de_barras));
+
+        return $ruta;
+
     }
 }

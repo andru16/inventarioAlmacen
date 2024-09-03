@@ -55,6 +55,8 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/productos/crear-producto', [ProductoController::class, 'crearProducto']);
     Route::post('/productos/listado-productos', [ProductoController::class, 'listarProductos']);
     Route::get('/productos/select-productos', [ProductoController::class, 'listaProductosSelect']);
+    Route::get('/productos/obtener-producto/{idProducto}', [ProductoController::class, 'obtenerProducto']);
+    Route::put('/productos/editar-producto/{idProducto}', [ProductoController::class, 'actualizarProducto']);
 
     /**
      * Compras

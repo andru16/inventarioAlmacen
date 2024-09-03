@@ -76,6 +76,21 @@ const appAlmacen = createApp({
                 draw: () => {}
             },
             formularioCrearProducto:{},
+            infoProducto:{
+                producto:{
+                    categoria:{
+
+                    },
+                    marca:{
+
+                    },
+                    inventario:{
+
+                    },
+                },
+                categorias:{},
+                marcas: {},
+            },
 
             /**
              * Section-Proveedores
@@ -184,6 +199,19 @@ const appAlmacen = createApp({
         //Inicializamos la validación del formulario
         this.inicializarFormulariosDeValidacionProducto();
 
+        $('#select_categoria_edit').select2({
+            dropdownParent: $('#kt_modal_editar_producto')
+        });
+        $('#select_categoria_edit').on('select2:select', (e) => {
+            this.infoProducto.producto.id_categoria = e.params.data.id;
+        })
+
+        $('#select_marca_edit').select2({
+            dropdownParent: $('#kt_modal_editar_producto')
+        });
+        $('#select_marca_edit').on('select2:select', (e) => {
+            this.infoProducto.producto.id_marca = e.params.data.id;
+        })
         /**
          * Section-Proveedores*/
         this.listadoProveedores();
@@ -396,7 +424,7 @@ const appAlmacen = createApp({
                     this.formularioFactura.colaboradores.push(field.value)
                 }
             })
-            console.log(this.formularioFactura.colaboradores)
+
             this.formularioFactura.fecha_factura = $('#fecha_factura').val();
             this.formularioFactura.fecha_vencimiento = $('#fecha_vencimiento').val();
             this.formularioFactura.totalFactura = this.total;
@@ -501,7 +529,38 @@ const appAlmacen = createApp({
                     { data: "marca", name: "marca"},
                     { data: "cantidad", name: "cantidad"},
                     { data: "costo", name: "costo"},
+                    { data: "id", name:"id", sClass:"text-center",
+                        render: function( data, type, row) {
+                            return `
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-sm btn-icon btn-active-color-primary btn-ver-producto me-1" data-id="${data}">
+                                        <i class="ki-duotone ki-eye fs-1">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                            <span class="path3"></span>
+                                        </i>
+                                    </button>
+                                    <button class="btn btn-sm btn-icon btn-active-color-primary btn-editar-producto" data-id="${data}">
+                                        <i class="ki-duotone ki-notepad-edit fs-1">
+                                         <span class="path1"></span>
+                                         <span class="path2"></span>
+                                        </i>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
                 ]
+            });
+
+            $('#kt_productos_table').on('click', '.btn-ver-producto', (event) => {
+                const idProducto = $(event.currentTarget).data('id');
+                this.verProducto(idProducto);
+            });
+
+            $('#kt_productos_table').on('click', '.btn-editar-producto', (event) => {
+                const idProducto = $(event.currentTarget).data('id');
+                this.obtenerProducto(idProducto);
             });
 
         },
@@ -686,6 +745,92 @@ const appAlmacen = createApp({
 
             return $container;
 
+        },
+        verProducto(idProducto){
+
+            axios.get(`/productos/obtener-producto/${idProducto}`)
+                .then(response => {
+                    this.infoProducto = response.data;
+                    $('#kt_modal_ver_producto').modal('show');
+                })
+                .catch(error => {
+                    swal({
+                        title: 'Error',
+                        text: 'Hubo un problema al cargar los datos del proveedor. Por favor, intenta nuevamente.',
+                        icon: 'error',
+                        buttons: 'Cerrar'
+                    });
+                });
+        },
+        obtenerProducto(idProducto){
+
+            $('#kt_modal_editar_producto').val('').trigger('change');
+            $('#select_categoria_edit').val('').trigger('change');
+
+            axios.get(`/productos/obtener-producto/${idProducto}`)
+                .then(response => {
+                    this.infoProducto = response.data;
+
+                    $('#kt_modal_editar_producto').modal('show');
+
+                    this.$nextTick(() => {
+
+                        $('#select_marca_edit').val(this.infoProducto.producto.id_marca).trigger('change');
+                        $('#select_categoria_edit').val(this.infoProducto.producto.id_categoria).trigger('change');
+
+                    });
+
+
+                })
+                .catch(error => {
+                    swal({
+                        title: 'Error',
+                        text: 'Hubo un problema al cargar los datos del proveedor. Por favor, intenta nuevamente.',
+                        icon: 'error',
+                        buttons: 'Cerrar'
+                    });
+                });
+
+        },
+
+        actualizarProducto(){
+            activarLoadBtn('btn_editar_producto');
+
+            let datos = this.infoProducto.producto;
+            console.log(datos)
+            axios.put(`/productos/editar-producto/${this.infoProducto.producto.id}`, datos)
+                .then( res => {
+
+                    swal({
+                        title: '¡Eso es todo!',
+                        text: 'El producto fue editado!',
+                        icon: 'success',
+                        buttons: 'Ver información',
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    }).then( confirmacion => {
+
+                        if( confirmacion ) {
+                            //Refrescamos la tabla para listar el nuevo resultado
+                            this.tablaListaProductos.draw()
+                            $('#kt_modal_editar_producto').modal('hide');
+                        }
+
+                    });
+
+                })
+                .catch( respuesta => {
+                    swal({
+                        title: '¡Vaya!',
+                        text: 'Eso no lo vi venir. No logramos procesar tu solicitud, por favor contacta al soporte técnico',
+                        icon: 'error',
+                        buttons: 'Cerrar este mensaje'
+                    });
+
+                })
+                .finally( () => {
+                    desactivarLoadBtn('btn_editar_producto');
+                })
         },
 
         /**

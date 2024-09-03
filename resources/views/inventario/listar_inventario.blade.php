@@ -218,6 +218,7 @@
                                         <th class="min-w-125px">Marca</th>
                                         <th class="min-w-125px">Cantidad</th>
                                         <th class="min-w-125px">Costo</th>
+                                        <th class="text-center">Acciones</th>
                                     </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
@@ -383,7 +384,7 @@
             <!--begin::Modal content-->
             <div class="modal-content">
                 <!--begin::Form-->
-                <form class="form" action="#" id="kt_agregar_producto_form" data-kt-redirect="apps/customers/list.html">
+                <form class="form" action="#" id="kt_agregar_producto_form" >
                     <!--begin::Modal header-->
                     <div class="modal-header" id="kt_modal_add_customer_header">
                         <!--begin::Modal title-->
@@ -460,6 +461,187 @@
         </div>
     </div>
     <!--end::Modal - Customers - Add-->
+
+    <!--begin::Modal - Editar - Producto-->
+    <div class="modal fade" id="kt_modal_ver_producto" tabindex="-1" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-750px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <div class="modal-body py-10 px-lg-17">
+                    <div class="d-flex">
+                        <div class="text-center me-15  m-5">
+                            <img src="{{ asset('assets/media/icons/productivo.png') }}" class="mb-4" alt="">
+                            <h1 class="page-heading fw-bolder fs-2  my-0 mb-4">
+                                <span v-text="infoProducto.producto.nombre"></span> - <span v-text="infoProducto.producto.referencia"></span>
+                            </h1>
+                            <hr class="mb-5">
+
+                            <div class="d-flex">
+                                <div class="text-start me-15">
+{{--                                    <span class="d-block mt-3">Estado</span>--}}
+{{--                                    <span class="d-block mt-3">Proveedor</span>--}}
+                                    <span class="d-block mt-3">Categoria</span>
+                                    <span class="d-block mt-3">Marca</span>
+                                </div>
+                                <div class="text-end ms-15">
+{{--                                    <span class="d-block mt-3 badge bg-success">Activo</span>--}}
+{{--                                    <span class="d-block mt-3">MotoresJaponesa</span>--}}
+                                    <span class="d-block mt-3" v-text="infoProducto.producto.categoria.nombre"></span>
+                                    <span class="d-block mt-3" v-text="infoProducto.producto.marca.nombre"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="text-start">
+                            <h1 class="fw-bold fs-2 my-0 mb-4">Información de producto</h1>
+
+                            <div class="d-flex">
+                                <div class="pe-20">
+                                    <span class="d-flex align-items-center mt-3 fw-bold">
+                                        <i class="ki-duotone ki-information-2 fs-2 text-black me-2">
+                                             <span class="path1"></span>
+                                             <span class="path2"></span>
+                                             <span class="path3"></span>
+                                        </i>
+                                        Código
+                                    </span>
+                                    <span v-text="infoProducto.producto.referencia"></span>
+                                    <hr>
+                                    <span class="d-flex align-items-center mt-3 fw-bold">
+                                        <i class="ki-duotone ki-information-2 fs-2 text-black me-2">
+                                             <span class="path1"></span>
+                                             <span class="path2"></span>
+                                             <span class="path3"></span>
+                                        </i>
+                                        Stock
+                                    </span>
+                                    <span v-text="infoProducto.producto.inventario.cantidad_disponible"></span>
+                                    <hr>
+                                </div>
+                                <div class="ps-15">
+                                    <span class="d-flex align-items-center mt-3 fw-bold">
+                                        <i class="ki-duotone ki-dollar fs-2 text-black me-2">
+                                             <span class="path1"></span>
+                                             <span class="path2"></span>
+                                             <span class="path3"></span>
+                                        </i>
+                                        Precio de venta
+                                    </span>
+                                    <span v-text="infoProducto.producto.inventario.precio"></span>
+                                    <hr>
+                                    <span class="d-flex align-items-center mt-3 fw-bold">
+                                        <i class="ki-duotone ki-barcode fs-2 text-black me-2">
+                                             <span class="path1"></span>
+                                             <span class="path2"></span>
+                                             <span class="path3"></span>
+                                             <span class="path4"></span>
+                                             <span class="path5"></span>
+                                             <span class="path6"></span>
+                                             <span class="path7"></span>
+                                             <span class="path8"></span>
+                                        </i>
+                                        Código de barras
+                                    </span>
+                                    <img :src="`/storage/${infoProducto.producto.codigo_de_barras}`" :alt="infoProducto.producto.nombre">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal - Editar - Producto-->
+
+    <!--begin::Modal - Editar - Producto-->
+    <div class="modal fade" id="kt_modal_editar_producto" tabindex="-1" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Form-->
+                <form class="form" action="#" id="kt_editar_producto_form" >
+                    <!--begin::Modal header-->
+                    <div class="modal-header" id="kt_modal_add_customer_header">
+                        <!--begin::Modal title-->
+                        <h2 class="fw-bold">Editar producto</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div id="kt_modal_add_customer_close" class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div class="modal-body py-10 px-lg-17">
+                        <!--begin::Scroll-->
+                        <div class="scroll-y me-n7 pe-7" id="kt_modal_add_customer_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_customer_header" data-kt-scroll-wrappers="#kt_modal_add_customer_scroll" data-kt-scroll-offset="300px">
+                            <div class="d-flex flex-column gap-7 gap-lg-10">
+                                <div class="card card-flush">
+                                    <!--begin::Card body-->
+                                    <div class="card-body pt-0">
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-5 mt-5">
+                                            <label class="form-label required" for="producto">Nombre producto</label>
+                                            <input type="text" class="form-control form-control-solid form-control-sm" name="producto" id="producto" v-model="infoProducto.producto.nombre" />
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row">
+                                            <div class="col-md-6 fv-row mb-5">
+                                                <label class="form-label required" for="select_categoria_edit">Categoria</label>
+                                                <select class="form-select form-select-solid form-select-sm" name="select_categoria" id="select_categoria_edit" data-placeholder="Selecciona una categoria">
+                                                    <option v-for="categoria in infoProducto.categorias" :value="categoria.id" v-text="categoria.nombre"></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 fv-row mb-5">
+                                                <label class="form-label" for="select_marca_edit">Marca</label>
+                                                <select class="form-select form-select-solid form-select-sm" name="select_marca"  id="select_marca_edit" data-placeholder="Selecciona una categoria">
+                                                    <option v-for="marca in infoProducto.marcas" :value="marca.id" v-text="marca.nombre"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-5">
+                                            <label class="form-label" for="stock_minimo">Cantidad mínima de stock</label>
+                                            <input type="text" class="form-control form-control-solid form-control-sm" name="stock_minimo" id="stock_minimo" v-model="infoProducto.producto.stock_minimo" />
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--end::Scroll-->
+                    </div>
+                    <!--end::Modal body-->
+                    <!--begin::Modal footer-->
+                    <div class="modal-footer flex-center">
+                        <!--begin::Button-->
+                        <button type="reset" id="kt_modal_add_customer_cancel" class="btn btn-light btn-sm me-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                        <!--end::Button-->
+                        <!--begin::Button-->
+                        <button type="button" id="btn_editar_producto" @click="actualizarProducto" class="btn btn-primary btn-sm">
+                            <span class="indicator-label">Actualizar producto</span>
+                            <span class="indicator-progress">Por favor, espere...
+							    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                        <!--end::Button-->
+                    </div>
+                    <!--end::Modal footer-->
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+    <!--end::Modal - Editar - Producto-->
+
     <!--begin::Modal - Venta - Add-->
     <div class="modal fade" id="kt_modal_registrar_venta" tabindex="-1" aria-hidden="true">
         <!--begin::Modal dialog-->
@@ -757,7 +939,7 @@
     <!--begin::Modal - Proveedores - Add-->
     <div class="modal fade" id="kt_modal_agregar_proveedor" tabindex="-1" aria-hidden="true">
         <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-750px">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
             <div class="modal-content">
                 <!--begin::Form-->
@@ -777,7 +959,7 @@
                     <!--begin::Modal body-->
                     <div class="modal-body py-10 px-lg-17">
                         <!--begin::Scroll-->
-                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
+                        <div class="scroll-y me-n7 pe-7" style="height: 390px" data-kt-scroll="true" data-kt-scroll-height="auto" data-kt-scroll-offset="300px">
                             <!--begin::Form fields-->
                             <div class="fv-row mb-5">
                                 <label class="form-label required">Nombre del Proveedor</label>
@@ -826,7 +1008,7 @@
 
     <!--begin::Modal - Proveedores - Edit-->
     <div class="modal fade" id="kt_modal_editar_proveedor" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mw-750px">
+        <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <form id="kt_editar_proveedor_form">
                     <div class="modal-header">
@@ -839,7 +1021,7 @@
                         </div>
                     </div>
                     <div class="modal-body py-6 px-lg-17">
-                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto">
+                        <div class="scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-height="auto" data-kt-scroll-offset="300px">
                             <div class="fv-row mb-5">
                                 <label class="form-label required">Nombre del Proveedor</label>
                                 <input type="text" class="form-control form-control-solid form-control-sm" v-model="formularioProveedor.nombre" />

@@ -68,4 +68,30 @@ class ProductoServices implements ProductuoServicesInterfaces
         $inventario->save();
 
     }
+
+    public function obtenerProducto($idProducto)
+    {
+        return Producto::with('categoria', 'marca', 'inventario')
+                        ->where('id_almacen', Auth::user()->almacen_id)
+                        ->findOrFail($idProducto);
+    }
+
+    public function actualizarProducto($producto)
+    {
+        try {
+
+            $productoSql               = Producto::findOrFail($producto->id);
+            $productoSql->nombre       = $producto->nombre;
+            $productoSql->id_categoria = $producto->id_categoria;
+            $productoSql->id_almacen   = Auth::user()->almacen_id;
+            $productoSql->id_marca     = $producto->id_marca;
+            $productoSql->referencia   = $producto->referencia;
+            $productoSql->stock_minimo =  $producto->stock_minimo;
+            $productoSql->save();
+
+        }catch (\Exception $exception) {
+            return response()->json('Error al procesar la información: ' . $exception->getMessage(), 422);
+        }
+
+    }
 }

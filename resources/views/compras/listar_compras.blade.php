@@ -97,9 +97,10 @@
         <!--end::Card header-->
         <!--begin::Card body-->
         <div class="card-body pt-0">
-            <!--begin::Table-->
-            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_compras_table">
-                <thead>
+            <div class="table-responsive">
+                <!--begin::Table-->
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_compras_table">
+                    <thead>
                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                         <th class="min-w-125px">Fecha</th>
                         <th class="min-w-125px">Consecutivo</th>
@@ -110,12 +111,13 @@
                         <th class="min-w-125px">Observaciones</th>
                         <th class="text-end min-w-70px">Acciones</th>
                     </tr>
-                </thead>
-                <tbody class="fw-semibold text-gray-600">
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
 
-                </tbody>
-            </table>
-            <!--end::Table-->
+                    </tbody>
+                </table>
+                <!--end::Table-->
+            </div>
         </div>
         <!--end::Card body-->
     </div>

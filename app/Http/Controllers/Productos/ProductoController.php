@@ -111,6 +111,24 @@ class ProductoController extends Controller
 
     }
 
+    public function actualizarProducto(Request $request, $idProducto)
+    {
+        DB::beginTransaction();
+        try {
+
+            $this->productuoServicesInterfaces->actualizarProducto($request);
+
+            DB::commit();
+            return response()->json('Producto actualizado');
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return response()->json([
+                'codigo' => $exception->getCode(),
+                'nombre' => $exception->getMessage()
+            ], 422);
+        }
+    }
+
     /**
      * Llamamos el servicio que lista las categorias
      *
@@ -135,4 +153,22 @@ class ProductoController extends Controller
         $marcas = $this->marcaServicesInterfaces->listarMarcas($request);
         return response()->json($marcas);
     }
+
+    public function obtenerProducto(Request $request)
+    {
+        $producto = $this->productuoServicesInterfaces->obtenerProducto($request->idProducto);
+
+        $categorias = $this->categoriaServicesInterfaces->listarCategorias($request);
+
+        $marcas = $this->marcaServicesInterfaces->listarMarcas($request);
+
+        $infoProducto = [
+            'producto'   => $producto,
+            'categorias' => $categorias,
+            'marcas'     => $marcas
+        ];
+
+        return response()->json($infoProducto);
+    }
+
 }
